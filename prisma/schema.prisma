@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              Int         @id @default(autoincrement())
+  name            String      @unique
+  surname         String      @unique
+  email           String      @unique
+  password        String      
+  subject         String
+  rule            String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  Reservation     Reservation[]
+
+  @@map("users")
+}
+
+model Classroom {
+  id              Int         @id @default(autoincrement())
+  name    String      @unique
+  capacity        Int
+  description     String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  Reservation     Reservation[]
+
+  @@map("classrooms")
+}
+
+model Class {
+  id              Int         @id @default(autoincrement())
+  grade           String  
+  className       String 
+  shift           String 
+  description     String  
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  Reservation     Reservation[]
+
+  @@map("classes")
+}
+
+model Reservation {
+  id              Int         @id @default(autoincrement())  
+  User            User        @relation(fields: [userId], references: [id])
+  userId          Int
+  date            DateTime
+  Classroom       Classroom   @relation(fields: [classroomId], references: [id])
+  classroomId     Int
+  time            String
+  purpose         String
+  Class           Class       @relation(fields: [classId], references: [id])
+  classId         Int
+  description     String
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@map("reservations")
+}
