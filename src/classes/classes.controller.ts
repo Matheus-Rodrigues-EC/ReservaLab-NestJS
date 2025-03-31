@@ -76,10 +76,10 @@ export class ClassesController {
   }
 
   // @UseGuards(Guard)
-  @Delete(':class/update')
+  @Delete('/')
   @HttpCode(204)
   DeleteClass(
-    @Param('id', ParseIntPipe) id: number,) {
+    @Param('id', ParseIntPipe) id: number) {
     return this.classesService.deleteClass(id);
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateUserDTO } from './DTOs/create.user.dto';
 import { LoginUserDTO } from './DTOs/login.user.dto';
