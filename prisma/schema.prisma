@@ -32,7 +32,7 @@ model Classroom {
   id              Int         @id @default(autoincrement())
   name            String      @unique
   capacity        Int
-  description     String
+  description     String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
   Reservation     Reservation[]
@@ -42,10 +42,10 @@ model Classroom {
 
 model Class {
   id              Int         @id @default(autoincrement())
-  grade           String  
+  grade           Int  
   className       String 
   shift           String 
-  description     String  
+  description     String?  
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
   Reservation     Reservation[]
@@ -64,7 +64,7 @@ model Reservation {
   purpose         String
   Class           Class       @relation(fields: [classId], references: [id])
   classId         Int
-  description     String
+  description     String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
 

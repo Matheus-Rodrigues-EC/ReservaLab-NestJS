@@ -24,7 +24,7 @@ export class UserService {
   async createUser(data: CreateUserDTO) {
     const userExists = await this.userRepository.getUserByEmail(data.email);
     if (userExists)
-      throw new HttpException('User Already Exists', HttpStatus.CONFLICT);
+      throw new HttpException('Usuário já cadastrado', HttpStatus.CONFLICT);
 
     return await this.userRepository.createUser(data);
   }
@@ -55,18 +55,24 @@ export class UserService {
     const userExists = await this.userRepository.getUserByID(id);
     if (!userExists)
       throw new HttpException('Usuário não encontrado!', HttpStatus.NOT_FOUND);
+
+    return userExists;
   }
 
   async getUserByEmail(email: string) {
     const userExists = await this.userRepository.getUserByEmail(email);
     if (!userExists)
       throw new HttpException('Usuário não encontrado!', HttpStatus.NOT_FOUND);
+
+    return userExists;
   }
 
   async getUserBySurname(surname: string) {
     const userExists = await this.userRepository.getUserBySurname(surname);
     if (!userExists)
       throw new HttpException('Usuário não encontrado!', HttpStatus.NOT_FOUND);
+
+    return userExists;
   }
 
   async updateUser(id: number, data: UpdateUserDTO) {
