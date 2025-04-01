@@ -2,7 +2,7 @@ import {
   Controller,
   Get,
   Post,
-  Put,
+  Patch,
   Body,
   HttpCode,
   Delete,
@@ -50,44 +50,55 @@ export class UserController {
   }
 
   // @UseGuards(Guard)
-  @Get(':id')
+  @Get('list/:id')
   @HttpCode(200)
-  getUserById(@UserDecorator() user: AuthenticatedUser) {
-    return this.userService.getUserByID(user.id);
+  getUserById(
+    @Param('id', ParseIntPipe) id: number,
+    // @UserDecorator() user: AuthenticatedUser,
+  ) {
+    return this.userService.getUserByID(id);
   }
 
   // @UseGuards(Guard)
-  @Get(':id')
+  @Get('list/email/:email')
   @HttpCode(200)
-  getUserByEmail(@UserDecorator() user: AuthenticatedUser) {
-    return this.userService.getUserByEmail(user.email);
+  getUserByEmail(
+    @Param('email') email: string,
+    // @UserDecorator() user: AuthenticatedUser,
+  ) {
+    return this.userService.getUserByEmail(email);
   }
 
   // @UseGuards(Guard)
-  @Get(':id')
+  @Get('list/surname/:surname')
   @HttpCode(200)
-  getUserBySurname(@UserDecorator() user: AuthenticatedUser) {
-    return this.userService.getUserBySurname(user.surname || '');
+  getUserBySurname(
+    @Param('surname') surname: string,
+    // @UserDecorator() user: AuthenticatedUser,
+  ) {
+    return this.userService.getUserBySurname(surname);
   }
 
   // @UseGuards(Guard)
-  @Put(':user/:id')
+  @Patch(':id/update')
   @HttpCode(200)
   updateUser(
     @Body() body: UpdateUserDTO,
-    @UserDecorator() user: AuthenticatedUser,
+    @Param('id', ParseIntPipe) id: number,
+    // @UserDecorator() user: AuthenticatedUser,
   ) {
-    return this.userService.updateUser(user.id, body);
+    return this.userService.updateUser(id, body);
   }
 
   // @UseGuards(Guard)
-  @Put('user/:id/update-password')
+  @Patch(':id/update-password')
   @HttpCode(200)
   updateUserPassword(
     @Body() body: UpdatePasswordUserDTO,
-    @UserDecorator() user: AuthenticatedUser,
+    @Param('id', ParseIntPipe) id: number,
+    // @UserDecorator() user: AuthenticatedUser,
   ) {
-    return this.userService.updateUserPassword(user.id, body);
+    return this.userService.updateUserPassword(id, body);
   }
 
   // @UseGuards(Guard)

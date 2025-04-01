@@ -3,7 +3,7 @@ import {
   Controller,
   Get,
   Post,
-  Put,
+  Patch,
   Body,
   HttpCode,
   Delete,
@@ -25,7 +25,7 @@ export class ClassroomController {
   }
 
   // @UseGuards(Guard)
-  @Post('/')
+  @Post('/create')
   @HttpCode(201)
   createClassroom(@Body() body: CreateOrUpdateClassroomDTO) {
     return this.classroomService.createClassroom(body);
@@ -46,22 +46,22 @@ export class ClassroomController {
   }
 
   // @UseGuards(Guard)
-  @Get('list/:name')
+  @Get('list/name/:name')
   @HttpCode(200)
-  getClassroomByName(name: string) { // TODO - Atenção a essa linha de código, verificar função
+  getClassroomByName(@Param('name') name: string) {
     return this.classroomService.getClassroomByName(name);
   }
 
   // @UseGuards(Guard)
-  @Put(':classroom/update')
+  @Patch(':id/update')
   @HttpCode(200)
-  updateClassroom( @Param('id', ParseIntPipe) id: number,
+  updateClassroom(@Param('id', ParseIntPipe) id: number,
   @Body() body: CreateOrUpdateClassroomDTO) {
     return this.classroomService.updateClassroom(id, body);
   }
 
   // @UseGuards(Guard)
-  @Delete('/')
+  @Delete(':id')
   @HttpCode(204)
   deleteClassroom(@Param('id', ParseIntPipe) id: number) {
     return this.classroomService.deleteClassroom(id);

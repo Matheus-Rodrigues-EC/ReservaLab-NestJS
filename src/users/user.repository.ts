@@ -68,7 +68,7 @@ export class UserRepository {
   async updatePasswordById(id: number, data: UpdatePasswordUserDTO) {
     return await this.prisma.user.update({
       data: {
-        password: data.password,
+        password: bcrypt.hashSync(data.password, 10),
       },
       select: {
         id: true,

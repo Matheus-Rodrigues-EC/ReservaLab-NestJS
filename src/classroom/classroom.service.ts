@@ -2,6 +2,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateOrUpdateClassroomDTO } from './DTOs/create.or.update.classroom.dto';
 import { ClassroomRepository } from './classroom.repository';
+import { removerAcentos } from '../common/global.functions';
 
 @Injectable()
 export class ClassroomService {
@@ -34,11 +35,15 @@ export class ClassroomService {
   }
 
   async getClassroomByName(name: string) {
-    const classroomExists = await this.classroomRepository.getClassroomByName(name);
-    if (!classroomExists)
+    const classrooms = await this.classroomRepository.getClassrooms();
+    if (!classrooms)
       throw new HttpException('Sala não encontrada!', HttpStatus.NOT_FOUND);
 
-    return classroomExists;
+    const classRoomName = classrooms.find((classroom) => {
+      return removerAcentos(classroom.name).toLowerCase() === removerAcentos(name).toLowerCase();
+    })
+
+    return classRoomName;
   }
 
   async updateClassroom(id: number, data: CreateOrUpdateClassroomDTO) {

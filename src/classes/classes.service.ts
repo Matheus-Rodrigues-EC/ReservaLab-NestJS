@@ -2,6 +2,7 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateOrUpdateClassesDTO } from './DTOs/create.or.update.classes.dto';
 import { ClassesRepository } from './classes.repository';
+import { removerAcentos } from '../common/global.functions';
 
 @Injectable()
 export class ClassesService {
@@ -34,27 +35,39 @@ export class ClassesService {
   }
 
   async getClassByGrade(grade: number) {
-    const classExists = await this.classesRepository.getClassByGrade(grade);
-    if (!classExists)
-      throw new HttpException('Turma não encontrada!', HttpStatus.NOT_FOUND);
+    const classes = await this.classesRepository.getClasses();
+    if (!classes) {
+        throw new HttpException('Turma não encontrada!', HttpStatus.NOT_FOUND);
+    }
+    const grades = classes.filter((classe) => {
+      return classe.grade === Number(grade);
+    })
 
-    return classExists;
-  }
+    return grades;
+}
 
   async getClassByClassName(className: string) {
-    const classExists = await this.classesRepository.getClassByClassName(className);
-    if (!classExists)
+    const classes = await this.classesRepository.getClasses();
+    if (!classes)
       throw new HttpException('Turma não encontrada!', HttpStatus.NOT_FOUND);
 
-    return classExists;
+    const classNames = classes.filter((classe) => {
+      return classe.className.toLowerCase() === className.toLowerCase();
+    })
+
+    return classNames;
   }
 
   async getClassByShift(shift: string) {
-    const classExists = await this.classesRepository.getClassByShift(shift);
-    if (!classExists)
+    const classes = await this.classesRepository.getClasses();
+    if (!classes)
       throw new HttpException('Turma não encontrada!', HttpStatus.NOT_FOUND);
 
-    return classExists;
+    const shifts = classes.filter((classe) => {
+      return removerAcentos(classe.shift).toLowerCase() === removerAcentos(shift).toLowerCase();
+    })
+
+    return shifts;
   }
 
   async getClassFull(grade: number, className: string, shift: string) {
