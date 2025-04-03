@@ -83,7 +83,7 @@ export class ClassesService {
     if (!classExists)
       throw new HttpException('Turma não encontrada!', HttpStatus.NOT_FOUND);
 
-    return this.classesRepository.updateClass(id, data);
+    return await this.classesRepository.updateClass(id, data);
   }
 
   async deleteClass(id: number) {

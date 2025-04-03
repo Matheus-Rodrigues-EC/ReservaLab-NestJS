@@ -29,6 +29,46 @@ export class ReservationsRepository {
     return await this.prisma.reservation.findMany();
   }
 
+  async getSpecificReservationClassroom(
+    date: Date,
+    time: string,
+    classroomId: number,
+  ) {
+    return await this.prisma.reservation.findUnique({
+      where: {
+        date_time_classroomId: {
+          date,
+          time,
+          classroomId,
+        },
+      },
+    });
+  }
+
+  async getSpecificReservationClass(date: Date, time: string, classId: number) {
+    return await this.prisma.reservation.findUnique({
+      where: {
+        date_time_classId: {
+          date,
+          time,
+          classId,
+        },
+      },
+    });
+  }
+
+  async getSpecificReservationUser(date: Date, time: string, userId: number) {
+    return await this.prisma.reservation.findUnique({
+      where: {
+        date_time_userId: {
+          date,
+          time,
+          userId,
+        },
+      },
+    });
+  }
+
   async getReservationByID(id: number) {
     return await this.prisma.reservation.findUnique({ where: { id: id } });
   }

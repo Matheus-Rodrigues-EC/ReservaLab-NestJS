@@ -51,7 +51,7 @@ export class ClassroomService {
     if (!classroomExists)
       throw new HttpException('Sala não encontrada!', HttpStatus.NOT_FOUND);
 
-    return this.classroomRepository.updateClassroom(id, data);
+    return await this.classroomRepository.updateClassroom(id, data);
   }
 
   async deleteClassroom(id: number) {

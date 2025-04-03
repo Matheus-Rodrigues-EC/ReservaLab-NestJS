@@ -50,7 +50,7 @@ export class UserService {
   }
 
   async getUsers() {
-    return this.userRepository.getUsers();
+    return await this.userRepository.getUsers();
   }
 
   async getUserByID(id: number) {
