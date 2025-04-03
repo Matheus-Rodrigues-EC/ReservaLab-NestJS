@@ -68,5 +68,8 @@ model Reservation {
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
 
+  @@unique([date, time, classroomId])
+  @@unique([date, time, classId])
+  @@unique([date, time, userId])
   @@map("reservations")
 }

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateUserDTO } from './DTOs/create.user.dto';
 import { LoginUserDTO } from './DTOs/login.user.dto';
@@ -9,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 import { AuthenticatedUser } from '../common/authenticated';
+import { removerAcentos } from '../common/global.functions';
 
 @Injectable()
 export class UserService {
@@ -48,7 +50,7 @@ export class UserService {
   }
 
   async getUsers() {
-    return this.userRepository.getUsers();
+    return await this.userRepository.getUsers();
   }
 
   async getUserByID(id: number) {
@@ -68,11 +70,17 @@ export class UserService {
   }
 
   async getUserBySurname(surname: string) {
-    const userExists = await this.userRepository.getUserBySurname(surname);
-    if (!userExists)
+    const users = await this.userRepository.getUsers();
+    if (!users)
       throw new HttpException('Usuário não encontrado!', HttpStatus.NOT_FOUND);
 
-    return userExists;
+    const Surname = users.find((user) => {
+      return removerAcentos(user?.surname || "").toLowerCase() === removerAcentos(surname).toLowerCase();
+    })
+    if (!Surname)
+      throw new HttpException('Usuário não encontrado!', HttpStatus.NOT_FOUND);
+
+    return Surname;
   }
 
   async updateUser(id: number, data: UpdateUserDTO) {

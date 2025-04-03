@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
 
 export class CreateOrUpdateClassesDTO {
@@ -6,7 +7,7 @@ export class CreateOrUpdateClassesDTO {
   grade: number;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsString()
   className: string;
 
   @IsNotEmpty()

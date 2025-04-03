@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
@@ -67,7 +68,7 @@ export class UserRepository {
   async updatePasswordById(id: number, data: UpdatePasswordUserDTO) {
     return await this.prisma.user.update({
       data: {
-        password: data.password,
+        password: bcrypt.hashSync(data.password, 10),
       },
       select: {
         id: true,

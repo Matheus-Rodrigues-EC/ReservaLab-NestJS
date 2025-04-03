@@ -3,7 +3,7 @@ import {
   Controller,
   Get,
   Post,
-  Put,
+  Patch,
   Body,
   HttpCode,
   Delete,
@@ -13,6 +13,7 @@ import {
 } from '@nestjs/common';
 import { ClassesService } from './classes.service';
 import { CreateOrUpdateClassesDTO } from './DTOs/create.or.update.classes.dto';
+// import { Guard } from '../common/guard';
 
 @Controller('classes')
 export class ClassesController {
@@ -24,7 +25,7 @@ export class ClassesController {
     return this.classesService.getHealthClasses();
   }
 
-  @Post('class/create')
+  @Post('create')
   @HttpCode(201)
   createClass(@Body() body: CreateOrUpdateClassesDTO) {
     return this.classesService.createClasses(body);
@@ -45,28 +46,28 @@ export class ClassesController {
   }
 
   // @UseGuards(Guard)
-  @Get('list/grade')
+  @Get('list/grade/:grade')
   @HttpCode(200)
   getClassesByGrade(@Param('grade', ParseIntPipe) grade: number) {
     return this.classesService.getClassByGrade(grade);
   }
 
   // @UseGuards(Guard)
-  @Get('list/classes')
+  @Get('list/classname/:className')
   @HttpCode(200)
-  getClassByClassName(className: string) { // TODO - Atenção a essa linha de código, verificar função
+  getClassByClassName(@Param('className') className: string) {
     return this.classesService.getClassByClassName(className);
   }
 
   // @UseGuards(Guard)
-  @Get('list/shifts')
+  @Get('list/shifts/:shift')
   @HttpCode(200)
-  getClassByShift(shift: string) { // TODO - Atenção a essa linha de código, verificar função
+  getClassByShift(@Param('shift') shift: string) {
     return this.classesService.getClassByShift(shift);
   }
 
   // @UseGuards(Guard)
-  @Put(':class/update')
+  @Patch(':id/update')
   @HttpCode(200)
   updateClass(
     @Param('id', ParseIntPipe) id: number,
@@ -76,10 +77,9 @@ export class ClassesController {
   }
 
   // @UseGuards(Guard)
-  @Delete(':class/update')
+  @Delete(':id')
   @HttpCode(204)
-  DeleteClass(
-    @Param('id', ParseIntPipe) id: number,) {
+  deleteClass(@Param('id', ParseIntPipe) id: number) {
     return this.classesService.deleteClass(id);
   }
 }

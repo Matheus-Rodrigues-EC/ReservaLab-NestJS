@@ -1,25 +1,24 @@
+/* eslint-disable prettier/prettier */
 export class Classes {
   grade: number;
   className: string;
   shift: string;
-  descriptiond: string;
+  description: string;
 
   createdAt: Date;
   updatedAt: Date;
-  Reservation: any[];
 
   constructor(
     grade: number,
     className: string,
     shift: string,
-    descriptiond: string,
+    description: string,
   ) {
     this.grade = grade;
     this.className = className;
     this.shift = shift;
-    this.descriptiond = descriptiond;
+    this.description = description;
     this.createdAt = new Date(); // Define o timestamp atual
     this.updatedAt = new Date();
-    this.Reservation = []; // Inicializa como array vazio
   }
 }
