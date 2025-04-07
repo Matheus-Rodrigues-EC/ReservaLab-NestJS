@@ -32,21 +32,31 @@ export class UserService {
   }
 
   async loginUser(data: LoginUserDTO) {
-    const user = await this.userRepository.getUserByEmail(data.email);
-    if (!user)
+    const userExists = await this.userRepository.getUserByEmail(data.email);
+    if (!userExists)
       throw new HttpException(
         'Email e/ou senha estão incorretos',
         HttpStatus.UNAUTHORIZED,
       );
 
-    const validatePassword = bcrypt.compareSync(data.password, user.password);
+    const validatePassword = bcrypt.compareSync(data.password, userExists.password);
     if (!validatePassword)
       throw new HttpException(
         'Email e/ou senha estão incorretos',
         HttpStatus.UNAUTHORIZED,
       );
 
-    return this.generateToken(user);
+      const user = {
+        id: userExists.id,
+        email: userExists.email,
+        name: userExists.name,
+        surname: userExists.surname,
+        rulets: userExists.rulets,
+        subject: userExists.subject,
+      }
+      const token = this.generateToken(userExists);
+
+    return {user, token};
   }
 
   async getUsers() {

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -8,11 +9,12 @@ export class ClassroomRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async createClassroom(data: CreateOrUpdateClassroomDTO) {
-    return await this.prisma.classroom.create({
+    return this.prisma.classroom.create({
       data: { ...data },
       select: {
         id: true,
         name: true,
+        classType: true,
         capacity: true,
         description: true,
         createdAt: true,
@@ -37,11 +39,13 @@ export class ClassroomRepository {
       data: {
         name: data.name,
         capacity: data.capacity,
+        classType: data.classType,
         description: data.description,
         updatedAt: new Date(),
       },
       select: {
         name: true,
+        classType: true,
         capacity: true,
         description: true,
         updatedAt: true,

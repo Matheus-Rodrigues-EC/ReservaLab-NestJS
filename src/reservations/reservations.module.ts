@@ -4,9 +4,10 @@ import { ReservationsController } from "./reservations.controller";
 import { ReservationsService } from "./reservations.service";
 import { ReservationsRepository } from "./reservations.repository";
 import { PrismaModule } from "../prisma/prisma.module";
+import { UserModule } from "../users/user.module";
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, UserModule],
   controllers: [ReservationsController],
   providers: [ReservationsService, ReservationsRepository],
   exports: [ReservationsRepository]

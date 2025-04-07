@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsString, IsNumber, IsDate } from 'class-validator';
+/* eslint-disable prettier/prettier */
+import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
 
 export class CreateOrUpdateReservationDTO {
   @IsNotEmpty()
@@ -6,8 +7,8 @@ export class CreateOrUpdateReservationDTO {
   userId: number;
 
   @IsNotEmpty()
-  @IsDate()
-  date: Date;
+  @IsString()
+  date: string;
 
   @IsNotEmpty()
   @IsNumber()
