@@ -1,6 +1,7 @@
 {
   "name": "reservalab-nestjs",
-  "version": "0.0.30",
+  "version": "0.0.31",
+  "type": "module",
   "description": "",
   "author": "",
   "private": true,
@@ -22,7 +23,7 @@
     "version:minor": "npm version minor -m \"Bump versão minor para %s\"",
     "version:major": "npm version major -m \"Bump versão major para %s\"",
     "release": "standard-version",
-    "release:manual": "node scripts/release.js"
+    "release:manual": "node scripts/release.mjs"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.12",
