@@ -6,7 +6,7 @@ import { CreateOrUpdateReservationDTO } from './DTOs/create.or.update.reservatio
 
 @Injectable()
 export class ReservationsRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async createReservation(data: CreateOrUpdateReservationDTO) {
     return await this.prisma.reservation.create({
@@ -33,6 +33,10 @@ export class ReservationsRepository {
         Classroom: true,
         Class: true,
       },
+      orderBy: [
+        { date: 'asc' },
+        { time: 'asc' },
+      ]
     });
   }
 
@@ -72,6 +76,48 @@ export class ReservationsRepository {
           time,
           userId,
         },
+      },
+    });
+  }
+
+  async getReservationsByDateAndClassroom(date: string, classroomId: number) {
+    return this.prisma.reservation.findMany({
+      where: {
+        date,
+        classroomId,
+      },
+      select: {
+        userId: true,
+        date: true,
+        classroomId: true,
+        time: true,
+        purpose: true,
+        classId: true,
+        description: true,
+      },
+    });
+  }
+
+  async getReservationsByDateAndClass(date: string, classId: number) {
+    return this.prisma.reservation.findMany({
+      where: {
+        date,
+        classId,
+      },
+      select: {
+        time: true,
+      },
+    });
+  }
+
+  async getReservationsByDateAndUser(date: string, userId: number) {
+    return this.prisma.reservation.findMany({
+      where: {
+        date,
+        userId,
+      },
+      select: {
+        time: true,
       },
     });
   }
