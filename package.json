@@ -1,7 +1,6 @@
 {
   "name": "reservalab-nestjs",
   "version": "0.0.31",
-  "type": "module",
   "description": "",
   "author": "",
   "private": true,

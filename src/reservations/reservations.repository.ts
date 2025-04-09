@@ -75,6 +75,42 @@ export class ReservationsRepository {
       },
     });
   }
+  
+  async getReservationsByDateAndClassroom(date: string, classroomId: number) {
+    return this.prisma.reservation.findMany({
+      where: {
+        date,
+        classroomId,
+      },
+      select: {
+        time: true,
+      },
+    });
+  }
+
+  async getReservationsByDateAndClass(date: string, classId: number) {
+    return this.prisma.reservation.findMany({
+      where: {
+        date,
+        classId,
+      },
+      select: {
+        time: true,
+      },
+    });
+  }
+  
+  async getReservationsByDateAndUser(date: string, userId: number) {
+    return this.prisma.reservation.findMany({
+      where: {
+        date,
+        userId,
+      },
+      select: {
+        time: true,
+      },
+    });
+  }
 
   async getReservationByID(id: number) {
     return await this.prisma.reservation.findUnique({ where: { id: id } });

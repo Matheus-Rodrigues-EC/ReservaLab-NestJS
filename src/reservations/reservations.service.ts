@@ -1,12 +1,14 @@
 /* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateOrUpdateReservationDTO } from './DTOs/create.or.update.reservations.dto';
+import { ReservationsConflictService } from './conflict/reservations-conflict.service.ts';
 import { ReservationsRepository } from './reservations.repository';
 
 @Injectable()
 export class ReservationsService {
   constructor(
     private readonly reservationsRepository: ReservationsRepository,
+    private readonly conflictService: ReservationsConflictService,
   ) {}
   
   getHealthReservation(): string {
@@ -14,17 +16,7 @@ export class ReservationsService {
   }
 
   async createReservation(data: CreateOrUpdateReservationDTO) {
-    const reservationClassroomExists = await this.reservationsRepository.getSpecificReservationClassroom(data.date, data.time, data.classroomId);
-    const reservationClassExists = await this.reservationsRepository.getSpecificReservationClass(data.date, data.time, data.classId);
-    const reservationUserExists = await this.reservationsRepository.getSpecificReservationUser(data.date, data.time, data.userId);
-
-    if(
-      reservationClassroomExists ||
-      reservationClassExists ||
-      reservationUserExists
-    )
-    throw new HttpException('Reserva já registrada', HttpStatus.CONFLICT);
-
+    await this.conflictService.validateNoConflicts(data);
     return await this.reservationsRepository.createReservation(data);
   }
 
