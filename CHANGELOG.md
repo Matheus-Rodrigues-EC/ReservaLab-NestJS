@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.32](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.0.31...v0.0.32) (2025-04-09)
+
+
+### Bug Fixes
+
+* Adjustments on conflicts to register new reservations ([675a95d](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/675a95d3e5fd61434ae0c5780d4686d95a2c27d1))
+
 ### 0.0.31 (2025-04-09)
 
 
