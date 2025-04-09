@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { IsNotEmpty, IsDate, IsArray, IsString } from 'class-validator';
 
 export class UpdateUserDTO {
@@ -16,6 +17,10 @@ export class UpdateUserDTO {
   @IsNotEmpty()
   @IsString()
   rulets: string;
+
+  @IsNotEmpty()
+  @IsString()
+  shift: string;
 
   @IsNotEmpty()
   @IsDate()

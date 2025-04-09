@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -6,7 +7,7 @@ import {
   Body,
   HttpCode,
   Delete,
-  // UseGuards,
+  UseGuards,
   Param,
   ParseIntPipe,
 } from '@nestjs/common';
@@ -18,7 +19,7 @@ import { UpdatePasswordUserDTO } from './DTOs/update.password.user.dto';
 import { DeleteUserDTO } from './DTOs/delete.user.dto';
 import { AuthenticatedUser } from '../common/authenticated';
 import { UserDecorator } from '../common/user.decorator';
-// import { Guard } from '../common/guard';
+import { Guard } from '../common/guard';
 
 @Controller('user')
 export class UserController {
@@ -42,14 +43,14 @@ export class UserController {
     return this.userService.loginUser(body);
   }
 
-  // @UseGuards(Guard)
+  @UseGuards(Guard)
   @Get('list')
   @HttpCode(200)
   getUsers() {
     return this.userService.getUsers();
   }
 
-  // @UseGuards(Guard)
+  @UseGuards(Guard)
   @Get('list/:id')
   @HttpCode(200)
   getUserById(
@@ -59,7 +60,7 @@ export class UserController {
     return this.userService.getUserByID(id);
   }
 
-  // @UseGuards(Guard)
+  @UseGuards(Guard)
   @Get('list/email/:email')
   @HttpCode(200)
   getUserByEmail(
@@ -69,7 +70,7 @@ export class UserController {
     return this.userService.getUserByEmail(email);
   }
 
-  // @UseGuards(Guard)
+  @UseGuards(Guard)
   @Get('list/surname/:surname')
   @HttpCode(200)
   getUserBySurname(
@@ -79,18 +80,18 @@ export class UserController {
     return this.userService.getUserBySurname(surname);
   }
 
-  // @UseGuards(Guard)
+  @UseGuards(Guard)
   @Patch(':id/update')
   @HttpCode(200)
   updateUser(
-    @Body() body: UpdateUserDTO,
     @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdateUserDTO,
     // @UserDecorator() user: AuthenticatedUser,
   ) {
     return this.userService.updateUser(id, body);
   }
 
-  // @UseGuards(Guard)
+  @UseGuards(Guard)
   @Patch(':id/update-password')
   @HttpCode(200)
   updateUserPassword(
@@ -101,7 +102,7 @@ export class UserController {
     return this.userService.updateUserPassword(id, body);
   }
 
-  // @UseGuards(Guard)
+  @UseGuards(Guard)
   @Delete(':id')
   @HttpCode(204)
   deleteCredential(

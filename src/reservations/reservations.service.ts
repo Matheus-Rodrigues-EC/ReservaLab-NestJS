@@ -1,12 +1,14 @@
 /* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateOrUpdateReservationDTO } from './DTOs/create.or.update.reservations.dto';
+import { ReservationsConflictService } from './conflict/reservations-conflict.service.ts';
 import { ReservationsRepository } from './reservations.repository';
 
 @Injectable()
 export class ReservationsService {
   constructor(
     private readonly reservationsRepository: ReservationsRepository,
+    private readonly conflictService: ReservationsConflictService,
   ) {}
   
   getHealthReservation(): string {
@@ -14,17 +16,7 @@ export class ReservationsService {
   }
 
   async createReservation(data: CreateOrUpdateReservationDTO) {
-    const reservationClassroomExists = await this.reservationsRepository.getSpecificReservationClassroom(data.date, data.time, data.classroomId);
-    const reservationClassExists = await this.reservationsRepository.getSpecificReservationClass(data.date, data.time, data.classId);
-    const reservationUserExists = await this.reservationsRepository.getSpecificReservationUser(data.date, data.time, data.userId);
-
-    if(
-      reservationClassroomExists ||
-      reservationClassExists ||
-      reservationUserExists
-    )
-    throw new HttpException('Reserva já registrada', HttpStatus.CONFLICT);
-
+    await this.conflictService.validateNoConflicts(data);
     return await this.reservationsRepository.createReservation(data);
   }
 
@@ -32,7 +24,7 @@ export class ReservationsService {
     return await this.reservationsRepository.getReservations();
   }
 
-  async getSpecificReservationClassroom(date: Date, time: string, classroomId: number) {
+  async getSpecificReservationClassroom(date: string, time: string, classroomId: number) {
     const reservationExists = await this.reservationsRepository.getSpecificReservationClassroom(date, time, classroomId);
     if(!reservationExists) 
       throw new HttpException('Reserva não encontrada!', HttpStatus.NOT_FOUND);
@@ -40,13 +32,13 @@ export class ReservationsService {
     return reservationExists;
   }
 
-  async getSpecificReservationClass(date: Date, time: string, classId: number) {
+  async getSpecificReservationClass(date: string, time: string, classId: number) {
     const reservationExists = await this.reservationsRepository.getSpecificReservationClass(date, time, classId);
     if(!reservationExists) 
       throw new HttpException('Reserva não encontrada!', HttpStatus.NOT_FOUND);
   }
 
-  async getSpecificReservationUser(date: Date, time: string, userId: number) {
+  async getSpecificReservationUser(date: string, time: string, userId: number) {
     const reservationExists =  await this.reservationsRepository.getSpecificReservationUser(date, time, userId);
     if(!reservationExists) 
       throw new HttpException('Reserva não encontrada!', HttpStatus.NOT_FOUND);

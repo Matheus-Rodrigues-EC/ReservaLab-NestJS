@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -26,11 +27,17 @@ export class ReservationsRepository {
   }
 
   async getReservations() {
-    return await this.prisma.reservation.findMany();
+    return await this.prisma.reservation.findMany({
+      include: {
+        User: true,
+        Classroom: true,
+        Class: true,
+      },
+    });
   }
 
   async getSpecificReservationClassroom(
-    date: Date,
+    date: string,
     time: string,
     classroomId: number,
   ) {
@@ -45,7 +52,7 @@ export class ReservationsRepository {
     });
   }
 
-  async getSpecificReservationClass(date: Date, time: string, classId: number) {
+  async getSpecificReservationClass(date: string, time: string, classId: number) {
     return await this.prisma.reservation.findUnique({
       where: {
         date_time_classId: {
@@ -57,7 +64,7 @@ export class ReservationsRepository {
     });
   }
 
-  async getSpecificReservationUser(date: Date, time: string, userId: number) {
+  async getSpecificReservationUser(date: string, time: string, userId: number) {
     return await this.prisma.reservation.findUnique({
       where: {
         date_time_userId: {
@@ -65,6 +72,42 @@ export class ReservationsRepository {
           time,
           userId,
         },
+      },
+    });
+  }
+  
+  async getReservationsByDateAndClassroom(date: string, classroomId: number) {
+    return this.prisma.reservation.findMany({
+      where: {
+        date,
+        classroomId,
+      },
+      select: {
+        time: true,
+      },
+    });
+  }
+
+  async getReservationsByDateAndClass(date: string, classId: number) {
+    return this.prisma.reservation.findMany({
+      where: {
+        date,
+        classId,
+      },
+      select: {
+        time: true,
+      },
+    });
+  }
+  
+  async getReservationsByDateAndUser(date: string, userId: number) {
+    return this.prisma.reservation.findMany({
+      where: {
+        date,
+        userId,
+      },
+      select: {
+        time: true,
       },
     });
   }

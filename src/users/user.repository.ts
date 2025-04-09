@@ -49,6 +49,7 @@ export class UserRepository {
         surname: data?.surname,
         subject: data?.subject,
         rulets: data?.rulets,
+        shift: data?.shift,
         updatedAt: new Date(),
       },
       select: {
@@ -57,6 +58,7 @@ export class UserRepository {
         surname: true,
         subject: true,
         rulets: true,
+        shift: true,
         updatedAt: true,
       },
       where: {
