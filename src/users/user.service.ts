@@ -26,7 +26,7 @@ export class UserService {
   async createUser(data: CreateUserDTO) {
     const userExists = await this.userRepository.getUserByEmail(data.email);
     if (userExists)
-      throw new HttpException('Usuário já cadastrado', HttpStatus.CONFLICT);
+      throw new HttpException('Email já cadastrado', HttpStatus.CONFLICT);
 
     return await this.userRepository.createUser(data);
   }
@@ -35,8 +35,8 @@ export class UserService {
     const userExists = await this.userRepository.getUserByEmail(data.email);
     if (!userExists)
       throw new HttpException(
-        'Email e/ou senha estão incorretos',
-        HttpStatus.UNAUTHORIZED,
+        'Email não cadastrado',
+        HttpStatus.NOT_FOUND,
       );
 
     const validatePassword = bcrypt.compareSync(data.password, userExists.password);
@@ -81,9 +81,6 @@ export class UserService {
 
   async getUserBySurname(surname: string) {
     const users = await this.userRepository.getUsers();
-    if (!users)
-      throw new HttpException('Usuário não encontrado!', HttpStatus.NOT_FOUND);
-
     const Surname = users.find((user) => {
       return removerAcentos(user?.surname || "").toLowerCase() === removerAcentos(surname).toLowerCase();
     })
@@ -103,8 +100,19 @@ export class UserService {
 
   async updateUserPassword(id: number, data: UpdatePasswordUserDTO) {
     const userExists = await this.userRepository.getUserByID(id);
+    console.log('user: ', userExists);
+    console.log('id: ', id);
+    console.log('Data: ', data);
     if (!userExists)
       throw new HttpException('Usuário não encontrado!', HttpStatus.NOT_FOUND);
+    
+    // @Abcd1234
+    const validatePassword = bcrypt.compareSync(data.CurrentPassword, userExists.password);
+    if (!validatePassword)
+      throw new HttpException(
+        'A senha informada está incorreta',
+        HttpStatus.UNAUTHORIZED,
+      );
 
     return await this.userRepository.updatePasswordById(id, data);
   }
