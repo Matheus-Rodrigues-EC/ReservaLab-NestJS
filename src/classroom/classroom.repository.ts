@@ -23,7 +23,11 @@ export class ClassroomRepository {
   }
 
   async getClassrooms() {
-    return await this.prisma.classroom.findMany();
+    return await this.prisma.classroom.findMany({
+      orderBy:{
+        name: 'asc',
+      }
+    });
   }
 
   async getClassroomByID(id: number) {
@@ -31,7 +35,7 @@ export class ClassroomRepository {
   }
 
   async getClassroomByName(name: string) {
-    return await this.prisma.classroom.findFirst({ where: { name: name } });
+    return await this.prisma.classroom.findFirst({ where: { name: name.toLowerCase() } });
   }
 
   async updateClassroom(id: number, data: CreateOrUpdateClassroomDTO) {
