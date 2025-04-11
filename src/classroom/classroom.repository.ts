@@ -33,9 +33,16 @@ export class ClassroomRepository {
   async getClassroomByID(id: number) {
     return await this.prisma.classroom.findUnique({ where: { id: id } });
   }
-
+  
   async getClassroomByName(name: string) {
-    return await this.prisma.classroom.findFirst({ where: { name: name.toLowerCase() } });
+    return await this.prisma.classroom.findFirst({
+      where: {
+        name: {
+          equals: name,
+          mode: 'insensitive',
+        },
+      },
+    });
   }
 
   async updateClassroom(id: number, data: CreateOrUpdateClassroomDTO) {
