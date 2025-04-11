@@ -16,6 +16,7 @@ export class ReservationsService {
   }
 
   async createReservation(data: CreateOrUpdateReservationDTO) {
+    // console.log('Data: ', data)
     await this.conflictService.validateNoConflicts(data);
     return await this.reservationsRepository.createReservation(data);
   }
