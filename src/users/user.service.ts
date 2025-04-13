@@ -99,7 +99,7 @@ export class UserService {
   }
 
   async updateUserPassword(id: number, data: UpdatePasswordUserDTO) {
-    const userExists = await this.userRepository.getUserByID(id);
+    const userExists = await this.userRepository.getUserByIDToUpdate(id);
     console.log('user: ', userExists);
     console.log('id: ', id);
     console.log('Data: ', data);
