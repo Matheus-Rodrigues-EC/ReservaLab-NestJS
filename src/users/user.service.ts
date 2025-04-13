@@ -9,7 +9,7 @@ import { UserRepository } from './user.repository';
 import * as bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
-import { AuthenticatedUser } from '../common/authenticated';
+import { AuthenticatedUser } from '../auth/authenticated';
 import { removerAcentos } from '../common/global.functions';
 
 @Injectable()
@@ -106,7 +106,6 @@ export class UserService {
     if (!userExists)
       throw new HttpException('Usuário não encontrado!', HttpStatus.NOT_FOUND);
     
-    // @Abcd1234
     const validatePassword = bcrypt.compareSync(data.CurrentPassword, userExists.password);
     if (!validatePassword)
       throw new HttpException(

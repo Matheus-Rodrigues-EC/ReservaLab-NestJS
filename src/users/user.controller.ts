@@ -17,9 +17,9 @@ import { LoginUserDTO } from './DTOs/login.user.dto';
 import { UpdateUserDTO } from './DTOs/update.user.dto';
 import { UpdatePasswordUserDTO } from './DTOs/update.password.user.dto';
 import { DeleteUserDTO } from './DTOs/delete.user.dto';
-import { AuthenticatedUser } from '../common/authenticated';
-import { UserDecorator } from '../common/user.decorator';
-import { Guard } from '../common/guard';
+import { AuthenticatedUser } from '../auth/authenticated';
+import { UserDecorator } from '../auth/decorator/user.decorator';
+import { Guard } from '../auth/guard';
 
 @Controller('user')
 export class UserController {

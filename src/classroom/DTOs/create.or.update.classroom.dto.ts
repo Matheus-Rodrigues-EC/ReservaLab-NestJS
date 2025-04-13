@@ -6,9 +6,6 @@ export class CreateOrUpdateClassroomDTO {
   @IsString()
   name: string;
 
-  @IsString()
-  classType: string;
-
   @IsInt()
   @Type(() => Number)
   capacity: number;
