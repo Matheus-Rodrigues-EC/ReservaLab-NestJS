@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.1.0](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.0.38...v0.1.0) (2025-04-13)
+
+
+### Features
+
+* Setting corretly validate token now ([c3bed3e](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/c3bed3e6dd9e26ffd343311d5419fc1374265e49))
+
 ### [0.0.38](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.0.37...v0.0.38) (2025-04-13)
 
 
