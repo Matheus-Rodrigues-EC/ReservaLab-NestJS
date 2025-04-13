@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ReservationsService } from './reservations.service';
 import { CreateOrUpdateReservationDTO } from './DTOs/create.or.update.reservations.dto';
-import { Guard } from '../common/guard';
+import { Guard } from '../auth/guard';
 
 @Controller('reservations')
 export class ReservationsController {

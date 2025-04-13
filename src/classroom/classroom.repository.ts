@@ -14,7 +14,6 @@ export class ClassroomRepository {
       select: {
         id: true,
         name: true,
-        classType: true,
         capacity: true,
         description: true,
         createdAt: true,
@@ -50,13 +49,11 @@ export class ClassroomRepository {
       data: {
         name: data.name,
         capacity: data.capacity,
-        classType: data.classType,
         description: data.description,
         updatedAt: new Date(),
       },
       select: {
         name: true,
-        classType: true,
         capacity: true,
         description: true,
         updatedAt: true,

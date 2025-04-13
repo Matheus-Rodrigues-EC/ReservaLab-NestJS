@@ -32,7 +32,6 @@ model User {
 model Classroom {
   id              Int         @id @default(autoincrement())
   name            String      @unique
-  classType       String
   capacity        Int
   description     String?
   createdAt       DateTime    @default(now())
