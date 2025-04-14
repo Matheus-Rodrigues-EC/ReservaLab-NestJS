@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.1.0...v0.1.1) (2025-04-14)
+
+
+### Bug Fixes
+
+* added .env.example ([5105752](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/5105752dc3e5162e25f820b5b2c646783070e50e))
+
 ## [0.1.0](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.0.38...v0.1.0) (2025-04-13)
 
 
