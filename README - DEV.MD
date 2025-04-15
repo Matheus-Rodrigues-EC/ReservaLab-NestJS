@@ -1,20 +1,46 @@
-# Development
-## 🚧 Para ambiente de desenvolvimento (dev)
+# 🧠 ReservaLab - Backend (NestJS + Prisma)
 
-### 📦 1. Baixar e Gerar (buildar) as imagens:
-- docker pull mattrodriguesec/reservalab-backend-dev:latest
-- docker-compose -f docker-compose.dev.yml build
+Este é o backend da aplicação ReservaLab, feito com NestJS, Prisma e PostgreSQL.
 
-### 🚀 2. Subir os containers:
-- docker-compose -f docker-compose.dev.yml up
+---
 
-#### Isso vai:
-1. Subir o Postgres
-2. Rodar prisma generate + prisma migrate dev
-3. Iniciar o NestJS com npm run start:dev
-4. Aplicar o volume local para live reload
+## ▶️ Rodar localmente com Docker
 
-### 🧼 3. Derrubar os containers:
-- docker-compose -f docker-compose.dev.yml down
+Para rodar o backend e o banco de dados usando Docker, execute:
 
-(opcional: --volumes se quiser remover os dados do banco)
+```bash
+docker-compose -f docker-compose.local.yml up --build -d
+```
+
+A aplicação estará acessível em http://localhost:3000.
+
+## 🐘 Banco de dados
+
+A configuração padrão cria um banco de dados PostgreSQL local:
+
+---
+
+- Host: localhost
+- Porta: 5432
+- Usuário: postgres
+- Senha: ReservaLabPostgreSQL
+- Banco: ReservaLab
+
+## ⚙️ Comandos úteis
+
+```bash
+# Executar as migrations manualmente
+npx prisma migrate dev
+
+# Gerar o Prisma Client
+npx prisma generate
+```
+
+## 🔗 Orquestração completa
+Se você quiser rodar o sistema completo (backend + frontend + banco), use o repositório:
+
+👉 [ReservaLab-FullStack](https://github.com/Matheus-Rodrigues-EC/ReservaLab-FullStack)
+
+```bash
+docker-compose up --build -d
+```

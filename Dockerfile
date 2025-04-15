@@ -1,3 +1,6 @@
+# ⚠️ Este compose é para rodar o backend isoladamente em ambiente local.
+# Para rodar toda a aplicação, use o docker-compose do repositório orquestrador.
+
 # Etapa 1: Builder
 FROM node:20-alpine AS builder
 WORKDIR /app
