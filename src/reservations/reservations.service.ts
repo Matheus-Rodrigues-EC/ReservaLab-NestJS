@@ -16,6 +16,7 @@ export class ReservationsService {
   }
 
   async createReservation(data: CreateOrUpdateReservationDTO) {
+    // console.log('Data: ', data)
     await this.conflictService.validateNoConflicts(data);
     return await this.reservationsRepository.createReservation(data);
   }
@@ -24,7 +25,7 @@ export class ReservationsService {
     return await this.reservationsRepository.getReservations();
   }
 
-  async getSpecificReservationClassroom(date: string, time: string, classroomId: number) {
+  async getSpecificReservationClassroom(date: Date, time: string[], classroomId: number) {
     const reservationExists = await this.reservationsRepository.getSpecificReservationClassroom(date, time, classroomId);
     if(!reservationExists) 
       throw new HttpException('Reserva não encontrada!', HttpStatus.NOT_FOUND);
@@ -32,13 +33,13 @@ export class ReservationsService {
     return reservationExists;
   }
 
-  async getSpecificReservationClass(date: string, time: string, classId: number) {
+  async getSpecificReservationClass(date: Date, time: string[], classId: number) {
     const reservationExists = await this.reservationsRepository.getSpecificReservationClass(date, time, classId);
     if(!reservationExists) 
       throw new HttpException('Reserva não encontrada!', HttpStatus.NOT_FOUND);
   }
 
-  async getSpecificReservationUser(date: string, time: string, userId: number) {
+  async getSpecificReservationUser(date: Date, time: string[], userId: number) {
     const reservationExists =  await this.reservationsRepository.getSpecificReservationUser(date, time, userId);
     if(!reservationExists) 
       throw new HttpException('Reserva não encontrada!', HttpStatus.NOT_FOUND);

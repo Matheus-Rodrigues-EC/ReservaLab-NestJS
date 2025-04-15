@@ -16,7 +16,11 @@ export class ClassroomService {
 
   async createClassroom(data: CreateOrUpdateClassroomDTO) {
     const classroomExists = await this.classroomRepository.getClassroomByName(data.name);
-    if (classroomExists)
+    const sameName = classroomExists?.name?.toLowerCase() === data?.name?.toLowerCase() ? true : false;
+    console.log(sameName);
+    console.log(data);
+    console.log(classroomExists);
+    if (classroomExists || sameName)
       throw new HttpException('Sala já cadastrada', HttpStatus.CONFLICT);
 
     return await this.classroomRepository.createClassroom(data)

@@ -5,7 +5,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { UserService } from '../users/user.service';
 
 @Injectable()
@@ -14,7 +14,6 @@ export class Guard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
-    const response = context.switchToHttp().getResponse<Response>();
 
     const { authorization } = request.headers;
     if (!authorization) {
@@ -30,7 +29,9 @@ export class Guard implements CanActivate {
 
       const data = this.usersService.verifyToken(token);
       const user = await this.usersService.getUserByID(data.sub);
-      response.locals.user = user;
+
+      // 🔁 Aqui é a mudança importante
+      request.user = user;
 
       return true;
     } catch (error) {

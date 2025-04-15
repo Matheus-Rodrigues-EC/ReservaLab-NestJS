@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ClassesService } from './classes.service';
 import { CreateOrUpdateClassesDTO } from './DTOs/create.or.update.classes.dto';
-import { Guard } from '../common/guard';
+import { Guard } from '../auth/guard';
 
 @Controller('classes')
 export class ClassesController {

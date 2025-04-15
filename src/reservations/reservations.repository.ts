@@ -6,7 +6,7 @@ import { CreateOrUpdateReservationDTO } from './DTOs/create.or.update.reservatio
 
 @Injectable()
 export class ReservationsRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async createReservation(data: CreateOrUpdateReservationDTO) {
     return await this.prisma.reservation.create({
@@ -33,12 +33,16 @@ export class ReservationsRepository {
         Classroom: true,
         Class: true,
       },
+      orderBy: [
+        { date: 'asc' },
+        { time: 'asc' },
+      ]
     });
   }
 
   async getSpecificReservationClassroom(
-    date: string,
-    time: string,
+    date: Date,
+    time: string[],
     classroomId: number,
   ) {
     return await this.prisma.reservation.findUnique({
@@ -52,7 +56,7 @@ export class ReservationsRepository {
     });
   }
 
-  async getSpecificReservationClass(date: string, time: string, classId: number) {
+  async getSpecificReservationClass(date: Date, time: string[], classId: number) {
     return await this.prisma.reservation.findUnique({
       where: {
         date_time_classId: {
@@ -64,7 +68,7 @@ export class ReservationsRepository {
     });
   }
 
-  async getSpecificReservationUser(date: string, time: string, userId: number) {
+  async getSpecificReservationUser(date: Date, time: string[], userId: number) {
     return await this.prisma.reservation.findUnique({
       where: {
         date_time_userId: {
@@ -75,20 +79,26 @@ export class ReservationsRepository {
       },
     });
   }
-  
-  async getReservationsByDateAndClassroom(date: string, classroomId: number) {
+
+  async getReservationsByDateAndClassroom(date: Date, classroomId: number) {
     return this.prisma.reservation.findMany({
       where: {
         date,
         classroomId,
       },
       select: {
+        userId: true,
+        date: true,
+        classroomId: true,
         time: true,
+        purpose: true,
+        classId: true,
+        description: true,
       },
     });
   }
 
-  async getReservationsByDateAndClass(date: string, classId: number) {
+  async getReservationsByDateAndClass(date: Date, classId: number) {
     return this.prisma.reservation.findMany({
       where: {
         date,
@@ -99,8 +109,8 @@ export class ReservationsRepository {
       },
     });
   }
-  
-  async getReservationsByDateAndUser(date: string, userId: number) {
+
+  async getReservationsByDateAndUser(date: Date, userId: number) {
     return this.prisma.reservation.findMany({
       where: {
         date,

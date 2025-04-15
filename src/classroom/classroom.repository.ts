@@ -14,7 +14,6 @@ export class ClassroomRepository {
       select: {
         id: true,
         name: true,
-        classType: true,
         capacity: true,
         description: true,
         createdAt: true,
@@ -23,15 +22,26 @@ export class ClassroomRepository {
   }
 
   async getClassrooms() {
-    return await this.prisma.classroom.findMany();
+    return await this.prisma.classroom.findMany({
+      orderBy:{
+        name: 'asc',
+      }
+    });
   }
 
   async getClassroomByID(id: number) {
     return await this.prisma.classroom.findUnique({ where: { id: id } });
   }
-
+  
   async getClassroomByName(name: string) {
-    return await this.prisma.classroom.findFirst({ where: { name: name } });
+    return await this.prisma.classroom.findFirst({
+      where: {
+        name: {
+          equals: name,
+          mode: 'insensitive',
+        },
+      },
+    });
   }
 
   async updateClassroom(id: number, data: CreateOrUpdateClassroomDTO) {
@@ -39,13 +49,11 @@ export class ClassroomRepository {
       data: {
         name: data.name,
         capacity: data.capacity,
-        classType: data.classType,
         description: data.description,
         updatedAt: new Date(),
       },
       select: {
         name: true,
-        classType: true,
         capacity: true,
         description: true,
         updatedAt: true,

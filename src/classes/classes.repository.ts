@@ -23,7 +23,12 @@ export class ClassesRepository {
   }
 
   async getClasses() {
-    return await this.prisma.class.findMany();
+    return await this.prisma.class.findMany({
+      orderBy: [
+        { grade: 'asc' },
+        { className: 'asc' },
+        { shift: 'asc' }
+      ]});
   }
 
   async getClassByID(id: number) {
