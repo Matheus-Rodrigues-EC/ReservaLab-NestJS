@@ -4,12 +4,12 @@ import { CreateUserDTO } from './DTOs/create.user.dto';
 import { LoginUserDTO } from './DTOs/login.user.dto';
 import { UpdateUserDTO } from './DTOs/update.user.dto';
 import { UpdatePasswordUserDTO } from './DTOs/update.password.user.dto';
-import { DeleteUserDTO } from './DTOs/delete.user.dto';
+// import { DeleteUserDTO } from './DTOs/delete.user.dto';
 import { UserRepository } from './user.repository';
 import * as bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
-import { AuthenticatedUser } from '../auth/authenticated';
+// import { AuthenticatedUser } from '../auth/authenticated';
 import { removerAcentos } from '../common/global.functions';
 
 @Injectable()
@@ -116,35 +116,12 @@ export class UserService {
     return await this.userRepository.updatePasswordById(id, data);
   }
 
-  async deleteUser(
-    userID: number,
-    data: DeleteUserDTO,
-    loggedUser: AuthenticatedUser,
-  ) {
+  async deleteUser(userID: number) {
     const UserId = await this.userRepository.getUserByID(userID);
-    if (UserId?.id !== loggedUser.id)
+    if (!UserId)
       throw new HttpException(
-        'Você não tem permissão para deletar esse usuário.',
-        HttpStatus.UNAUTHORIZED,
-      );
-
-    const userExists = await this.userRepository.getUserByEmail(
-      loggedUser.email,
-    );
-    if (!userExists)
-      throw new HttpException(
-        'Email e/ou senha estão incorretos',
-        HttpStatus.UNAUTHORIZED,
-      );
-
-    const validatePassword = bcrypt.hashSync(
-      data.password,
-      userExists.password,
-    );
-    if (!validatePassword)
-      throw new HttpException(
-        'Email and/or password incorrect',
-        HttpStatus.UNAUTHORIZED,
+        'Usuário não encontrado',
+        HttpStatus.NOT_FOUND,
       );
 
     return await this.userRepository.deleteUserByID(userID);

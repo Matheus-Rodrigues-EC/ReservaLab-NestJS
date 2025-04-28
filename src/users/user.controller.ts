@@ -16,9 +16,9 @@ import { CreateUserDTO } from './DTOs/create.user.dto';
 import { LoginUserDTO } from './DTOs/login.user.dto';
 import { UpdateUserDTO } from './DTOs/update.user.dto';
 import { UpdatePasswordUserDTO } from './DTOs/update.password.user.dto';
-import { DeleteUserDTO } from './DTOs/delete.user.dto';
-import { AuthenticatedUser } from '../auth/authenticated';
-import { UserDecorator } from '../auth/decorator/user.decorator';
+// import { DeleteUserDTO } from './DTOs/delete.user.dto';
+// import { AuthenticatedUser } from '../auth/authenticated';
+// import { UserDecorator } from '../auth/decorator/user.decorator';
 import { Guard } from '../auth/guard';
 
 @Controller('user')
@@ -103,13 +103,11 @@ export class UserController {
   }
 
   @UseGuards(Guard)
-  @Delete(':id')
+  @Delete('list/:id')
   @HttpCode(204)
   deleteCredential(
     @Param('id', ParseIntPipe) id: number,
-    @Body() body: DeleteUserDTO,
-    @UserDecorator() user: AuthenticatedUser,
   ) {
-    return this.userService.deleteUser(id, body, user);
+    return this.userService.deleteUser(id);
   }
 }
