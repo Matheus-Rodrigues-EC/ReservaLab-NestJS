@@ -27,7 +27,17 @@ export class UserRepository {
   }
 
   async getUsers() {
-    return await this.prisma.user.findMany();
+    return await this.prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        surname: true, 
+        rulets: true,
+        shift: true,
+        subject: true,
+      }
+    });
   }
 
   async getUserByID(id: number) {
