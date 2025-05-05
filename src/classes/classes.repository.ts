@@ -68,6 +68,7 @@ export class ClassesRepository {
         className: data.className,
         shift: data.shift,
         description: data.description,
+        updatedAt: new Date(),
       },
       select: {
         id: true,
