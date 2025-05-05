@@ -62,7 +62,7 @@ export class ClassroomController {
   }
 
   @UseGuards(Guard)
-  @Delete(':id')
+  @Delete('list/:id')
   @HttpCode(204)
   deleteClassroom(@Param('id', ParseIntPipe) id: number) {
     return this.classroomService.deleteClassroom(id);

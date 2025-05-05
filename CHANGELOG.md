@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.6](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.1.5...v0.1.6) (2025-05-05)
+
+
+### Bug Fixes
+
+* add field to update updated_at on database ([9a2e464](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/9a2e4644e47944a1c4b15f844a9c33a967c2690e))
+
+### [0.1.5](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.1.4...v0.1.5) (2025-04-29)
+
+### [0.1.4](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.1.3...v0.1.4) (2025-04-29)
+
 ### [0.1.3](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.1.1...v0.1.3) (2025-04-28)
 
 

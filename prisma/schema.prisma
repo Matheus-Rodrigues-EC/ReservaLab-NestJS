@@ -56,14 +56,14 @@ model Class {
 
 model Reservation {
   id              Int         @id @default(autoincrement()) 
-  User            User        @relation(fields: [userId], references: [id])
+  User            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          Int
   date            DateTime    
-  Classroom       Classroom   @relation(fields: [classroomId], references: [id])
+  Classroom       Classroom   @relation(fields: [classroomId], references: [id], onDelete: Cascade)
   classroomId     Int
   time            String[]
   purpose         String
-  Class           Class       @relation(fields: [classId], references: [id])
+  Class           Class       @relation(fields: [classId], references: [id], onDelete: Cascade)
   classId         Int
   description     String?
   createdAt       DateTime    @default(now())
