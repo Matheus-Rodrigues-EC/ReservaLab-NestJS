@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.7](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.1.6...v0.1.7) (2025-05-07)
+
+
+### Features
+
+* added data base table and all nest settings to equipments ([649f997](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/649f997af04dbc1d2a5ed83e8fe96510e5e194b1))
+
 ### [0.1.6](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.1.5...v0.1.6) (2025-05-05)
 
 
