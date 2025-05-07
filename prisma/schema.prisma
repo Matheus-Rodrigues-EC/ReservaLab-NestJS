@@ -25,6 +25,7 @@ model User {
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
   Reservation     Reservation[]
+  EquipmentsReservation       EquipmentsReservation[]
 
   @@map("users")
 }
@@ -54,6 +55,19 @@ model Class {
   @@map("classes")
 }
 
+model Equipment {
+  id              Int         @id @default(autoincrement())
+  name            String
+  type            String
+  tombNumber      String?     @unique()
+  description     String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  EquipmentsReservation       EquipmentsReservation[]
+
+  @@map("equipments")
+}
+
 model Reservation {
   id              Int         @id @default(autoincrement()) 
   User            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -73,4 +87,19 @@ model Reservation {
   @@unique([date, time, classId])
   @@unique([date, time, userId])
   @@map("reservations")
+}
+
+model EquipmentsReservation {
+  id              Int         @id @default(autoincrement())
+  User            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          Int
+  date            DateTime  
+  time            String[]
+  Equipment       Equipment   @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
+  equipmentId     Int
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@unique([date, time, equipmentId])
+  @@map("equipmetsReservations")
 }
