@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.9](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.1.8...v0.1.9) (2025-05-08)
+
+
+### Bug Fixes
+
+* remover requirer of tombNumber ([9240366](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/9240366e2e1a69b7295f15e0ba3e76707b36e861))
+
 ### [0.1.8](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.1.7...v0.1.8) (2025-05-07)
 
 
