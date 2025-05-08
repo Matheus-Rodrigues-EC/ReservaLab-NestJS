@@ -13,10 +13,16 @@ import { ReservationsService } from './reservations/reservations.service';
 import { ReservationsController } from './reservations/reservations.controller';
 import { ReservationsModule } from './reservations/reservations.module';
 import { AuthController } from './auth/auth.controller';
+import { EquipmentsService } from './equipments/equipments.service';
+import { EquipmentsReservationsService } from './equipments-reservations/equipments-reservations.service';
+import { EquipmentsController } from './equipments/equipments.controller';
+import { EquipmentsModule } from './equipments/equipments.module';
+import { EquipmentsReservationsController } from './equipments-reservations/equipments-reservations.controller';
+import { EquipmentsReservationsModule } from './equipments-reservations/equipments-reservations.module';
 
 @Module({
-  imports: [UserModule, ClassesModule, ClassroomModule, ReservationsModule],
-  controllers: [AppController, ClassesController, ClassroomController, ReservationsController, AuthController],
-  providers: [AppService, ClassesService, ClassroomService, ReservationsService],
+  imports: [UserModule, ClassesModule, ClassroomModule, ReservationsModule, EquipmentsModule, EquipmentsReservationsModule],
+  controllers: [AppController, ClassesController, ClassroomController, ReservationsController, AuthController, EquipmentsController, EquipmentsReservationsController],
+  providers: [AppService, ClassesService, ClassroomService, ReservationsService, EquipmentsService, EquipmentsReservationsService],
 })
 export class AppModule {}
