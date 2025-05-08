@@ -23,7 +23,7 @@ export class EquipmentsReservationsService {
   }
 
   async getEquipmentReservations() {
-    await this.equipmentsRepository.getEquipmentReservations();
+    return await this.equipmentsRepository.getEquipmentReservations();
   }
 
   async getEquipmentReservationByDateAndEquipment(date: Date, time: string[], equipmentId: number){

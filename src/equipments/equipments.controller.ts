@@ -32,7 +32,7 @@ export class EquipmentsController {
     return this.equipmentService.createEquipment(body);
   }
 
-  @UseGuards(Guard)
+  // @UseGuards(Guard)
   @Get('list')
   @HttpCode(200)
   getEquipments(){
@@ -53,12 +53,12 @@ export class EquipmentsController {
     return this.equipmentService.getEquipmentByName(name);
   }
 
-  @UseGuards(Guard)
-  @Get('list/:tombNumber')
-  @HttpCode(200)
-  getEquipmentByTombNumber(@Param('tombNumber') tombNumber: string){
-    return this.equipmentService.getEquipmentByTombNumber(tombNumber);
-  }
+  // @UseGuards(Guard)
+  // @Get('list/:tombNumber')
+  // @HttpCode(200)
+  // getEquipmentByTombNumber(@Param('tombNumber') tombNumber: string){
+  //   return this.equipmentService.getEquipmentByTombNumber(tombNumber);
+  // }
 
   @UseGuards(Guard)
   @Patch(':id/update')

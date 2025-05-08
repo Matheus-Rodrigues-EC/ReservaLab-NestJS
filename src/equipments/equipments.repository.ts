@@ -38,11 +38,11 @@ export class EquipmentsRepository {
     return await this.prisma.equipment.findFirst({ where: { name: name } });
   }
 
-  async getEquipmentByTombNumber(tombNumber: string) {
-    return await this.prisma.equipment.findUnique({
-      where: { tombNumber: tombNumber },
-    });
-  }
+  // async getEquipmentByTombNumber(tombNumber: string) {
+  //   return await this.prisma.equipment.findUnique({
+  //     where: { tombNumber: tombNumber },
+  //   });
+  // }
 
   async updateEquipment(id: number, data: CreateOrUpdateEquipmentsDTO) {
     return await this.prisma.equipment.update({

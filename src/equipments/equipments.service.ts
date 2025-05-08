@@ -15,9 +15,11 @@ export class EquipmentsService {
 
   async createEquipment(data: CreateOrUpdateEquipmentsDTO) {
     const equipmentExistsName = await this.equipmentsRepository.getEquipmentByName(data.name);
-    const equipmentExistsTombNumber = await this.equipmentsRepository.getEquipmentByTombNumber(data.tombNumber);
-    if(equipmentExistsName || equipmentExistsTombNumber)
+    // const equipmentExistsTombNumber = await this.equipmentsRepository.getEquipmentByTombNumber(data.tombNumber);
+    if(equipmentExistsName )
       throw new HttpException('Equipamento já cadastrado', HttpStatus.CONFLICT);
+
+    return await this.equipmentsRepository.createEquipment(data);
   }
 
   async getEquipments() {
@@ -40,13 +42,13 @@ export class EquipmentsService {
     return equipmentExists;
   }
 
-  async getEquipmentByTombNumber(tombNumber: string) {
-    const equipmentExists =  await this.equipmentsRepository.getEquipmentByTombNumber(tombNumber);
-    if(!equipmentExists)
-      throw new HttpException('Equipamento não encontrado.', HttpStatus.NOT_FOUND);
+  // async getEquipmentByTombNumber(tombNumber: string) {
+  //   const equipmentExists =  await this.equipmentsRepository.getEquipmentByTombNumber(tombNumber);
+  //   if(!equipmentExists)
+  //     throw new HttpException('Equipamento não encontrado.', HttpStatus.NOT_FOUND);
 
-    return equipmentExists;
-  }
+  //   return equipmentExists;
+  // }
 
   async updateEquipment(id: number, data: CreateOrUpdateEquipmentsDTO) {
     const classExists = await this.equipmentsRepository.updateEquipment(id, data);
