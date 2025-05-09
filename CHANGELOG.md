@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.10](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.1.9...v0.1.10) (2025-05-09)
+
+
+### Bug Fixes
+
+* adjusts routes to delete a reservation and an equipmentReservation ([22591db](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/22591dbb9d0129f98a6895ff911d0b2836982cef))
+
 ### [0.1.9](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.1.8...v0.1.9) (2025-05-08)
 
 
