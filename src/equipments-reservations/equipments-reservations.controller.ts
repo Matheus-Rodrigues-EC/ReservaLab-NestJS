@@ -71,7 +71,7 @@ export class EquipmentsReservationsController {
   }
 
   @UseGuards(Guard)
-  @Delete(':id')
+  @Delete('list/:id')
   @HttpCode(204)
   deleteReservation(@Param('id', ParseIntPipe) id: number) {
     return this.equipmentsReservationsService.deleteEquipmentReservation(id);
