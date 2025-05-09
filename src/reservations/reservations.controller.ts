@@ -100,7 +100,7 @@ export class ReservationsController {
   }
 
   @UseGuards(Guard)
-  @Delete(':id')
+  @Delete('list/:id')
   @HttpCode(204)
   deleteReservation(@Param('id', ParseIntPipe) id: number){
     return this.reservationService.deleteReservation(id);

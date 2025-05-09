@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateOrUpdateReservationDTO } from './DTOs/create.or.update.reservations.dto';
-import { ReservationsConflictService } from './conflict/reservations-conflict.service.ts';
+import { ReservationsConflictService } from './conflict/reservations-conflict.service';
 import { ReservationsRepository } from './reservations.repository';
 
 @Injectable()

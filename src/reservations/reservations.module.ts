@@ -5,7 +5,7 @@ import { ReservationsService } from "./reservations.service";
 import { ReservationsRepository } from "./reservations.repository";
 import { PrismaModule } from "../prisma/prisma.module";
 import { UserModule } from "../users/user.module";
-import { ReservationsConflictService } from './conflict/reservations-conflict.service.ts';
+import { ReservationsConflictService } from './conflict/reservations-conflict.service';
 
 @Module({
   imports: [PrismaModule, UserModule],
