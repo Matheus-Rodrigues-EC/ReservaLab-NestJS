@@ -1,35 +1,51 @@
-# ⚠️ Este compose é para rodar o backend isoladamente em ambiente local.
-# Para rodar toda a aplicação, use o docker-compose do repositório orquestrador.
-
-version: '3.8'
 
 services:
-  db:
-    image: postgres:15
-    restart: always
+  reservalab-backend-postgres:
+    image: postgres:17.3
+    container_name: reservalab-backend-postgres
+    hostname: postgres
+    restart: unless-stopped
+    volumes:
+      - reservalab-database:/var/lib/postgresql/data
+    ports:
+      - '127.0.0.1:5440:5432'
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ReservaLabPostgreSQL
-      POSTGRES_DB: ReservaLab
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
-  backend:
+      POSTGRES_PASSWORD: postgres_reservalab
+      POSTGRES_DB: reservalab-development
+    networks:
+      - reservalab-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}", "-d", "reservalab-development"]
+      interval: 5s
+      timeout: 120s
+      retries: 30
+      start_period: 10s
+    
+  reservalab-backend:
     build:
-      context: .
-    container_name: reserva-backend-local
+      context: ./
+      dockerfile: Dockerfile
+    image: reservalab-backend:dev
+    container_name: reservalab-backend-dev
+    hostname: backend
+    restart: unless-stopped
     ports:
-      - "3000:3000"
-    environment:
-      DATABASE_URL: postgres://postgres:ReservaLabPostgreSQL@db:5432/ReservaLab
-    depends_on:
-      - db
+      - '7070:7070'
     volumes:
-      - .:/app
-      - /app/node_modules
-    command: sh -c "npx prisma generate && npx prisma migrate dev --name init && npm run start:dev"
+      - ./src:/src
+      - ./prisma:/src/prisma
+      - ./package.json:/src/package.json
+    depends_on:
+      reservalab-backend-postgres:
+        condition: service_healthy
+    networks:
+      - reservalab-network
 
 volumes:
-  pgdata:
+  reservalab-database:
+
+networks:
+  reservalab-network:
+    name: reservalab-network
+    driver: bridge
