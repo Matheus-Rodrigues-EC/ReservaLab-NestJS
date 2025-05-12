@@ -19,7 +19,6 @@ import { Guard } from '../auth/guard';
 export class ReservationsController {
   constructor(private readonly reservationService: ReservationsService) {}
 
-  @UseGuards(Guard)
   @Get('/')
   @HttpCode(200)
   getHealthClassroom() {

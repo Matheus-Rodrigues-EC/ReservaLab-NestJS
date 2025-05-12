@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.1.2...v0.2.0) (2025-05-12)
+
+
+### Features
+
+* added data base table and all nest settings to equipments ([649f997](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/649f997af04dbc1d2a5ed83e8fe96510e5e194b1))
+* Completed docker configuration ([8572e89](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/8572e89970271958391fdbf652a8c96c7ff632f1))
+* configured routes and all functions to new feature of equipment reservations, also adjusts functions on reservations ([ff6e393](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/ff6e393f410c884aeb7e322a87f8d9c4ad5b6451))
+
+
+### Bug Fixes
+
+* add field to update updated_at on database ([9a2e464](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/9a2e4644e47944a1c4b15f844a9c33a967c2690e))
+* adjusts routes to delete a reservation and an equipmentReservation ([22591db](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/22591dbb9d0129f98a6895ff911d0b2836982cef))
+* remover requirer of tombNumber ([9240366](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/9240366e2e1a69b7295f15e0ba3e76707b36e861))
+
 ### [0.1.10](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.1.9...v0.1.10) (2025-05-09)
 
 

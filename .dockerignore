@@ -1,3 +1,22 @@
+# .gitignore ignores
 node_modules
-dist
-.env
+build
+coverage
+.vscode
+.DS_STORE
+
+# .env
+tmp
+
+# Additional .gitignore ignores (any custom file you wish)
+.idea
+
+# Additional good to have ignores for dockerignore
+Dockerfile*
+docker-compose*
+*.md
+.git
+.gitignore
+Docker/
+Makefile
+Scripts/
