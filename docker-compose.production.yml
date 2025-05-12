@@ -1,0 +1,47 @@
+
+services:
+  reservalab-backend-postgres:
+    image: postgres:17.3
+    container_name: reservalab-backend-postgres
+    hostname: postgres
+    restart: unless-stopped
+    volumes:
+      - reservalab-database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_reservalab_production_98
+      POSTGRES_DB: reservalab-production
+    networks:
+      - reservalab-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}", "-d", "reservalab-production"]
+      interval: 5s
+      timeout: 120s
+      retries: 30
+      start_period: 10s
+  
+  reservalab-backend:
+    build:
+      context: ./
+      dockerfile: Dockerfile.prod
+    image: mattrodriguesec/reservalab-backend:stage
+    container_name: reservalab-backend-prod
+    hostname: backend
+    restart: unless-stopped
+    ports:
+      - 9999:9999
+    # env_file:
+    #   - .env.production
+    depends_on:
+      reservalab-backend-postgres:
+        condition: service_healthy
+    networks:
+      - reservalab-network
+
+networks:
+  reservalab-network:
+    name: reservalab-network
+    driver: bridge
+
+volumes:
+  reservalab-database:

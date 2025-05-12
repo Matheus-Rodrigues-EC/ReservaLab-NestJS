@@ -1,0 +1,16 @@
+FROM node:20.19.0-alpine AS builder
+
+WORKDIR /app
+ENV NODE_ENV=production
+
+RUN apk update && apk add --no-cache postgresql-client
+
+COPY package*.json ./
+RUN npm install --only=production --no-audit --progress=false --prefer-offline
+
+COPY . .
+RUN npx prisma generate
+RUN npm run build
+
+EXPOSE 7070
+CMD ["node", "dist/main"]
