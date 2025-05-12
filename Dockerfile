@@ -1,34 +1,28 @@
-# ⚠️ Este compose é para rodar o backend isoladamente em ambiente local.
-# Para rodar toda a aplicação, use o docker-compose do repositório orquestrador.
+FROM node:20.19.0-alpine AS builder
 
-# Etapa 1: Builder
-FROM node:20-alpine AS builder
 WORKDIR /app
+ENV NODE_ENV=development
 
+# Instala dependências do SO
+RUN apk update && apk add --no-cache postgresql-client
+
+# Copia arquivos de dependência
 COPY package*.json ./
-RUN npm install --only=production && npm install --only=dev
 
+# Instala dependências de desenvolvimento
+RUN npm install --only=dev --no-audit --progress=false --prefer-offline
+
+# Copia o restante do projeto
 COPY . .
 
-# 🔧 Gera o Prisma Client antes de buildar o app
+# Gera o Prisma Client
 RUN npx prisma generate
 
-# 🔨 Compila a aplicação
+# Compila a aplicação (caso use TypeScript)
 RUN npm run build
 
-# Etapa 2: Final
-FROM node:20-alpine AS production
-WORKDIR /app
+# Expõe a porta usada pela aplicação
+EXPOSE 7070
 
-COPY package*.json ./
-RUN npm install --only=production && npm install --only=dev
-
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/prisma ./prisma
-
-ENV NODE_ENV=production
-
-# 🔧 Garante que Prisma Client esteja gerado
-RUN npx prisma generate
-
-CMD ["node", "dist/main"]
+# Comando para rodar a aplicação
+CMD ["npm", "run", "start:dev"]
