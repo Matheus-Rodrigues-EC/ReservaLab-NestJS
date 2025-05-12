@@ -23,13 +23,13 @@ services:
   reservalab-backend:
     build:
       context: ./
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile.production
     image: mattrodriguesec/reservalab-backend:stage
-    container_name: reservalab-backend-prod
+    container_name: reservalab-backend-production
     hostname: backend
     restart: unless-stopped
     ports:
-      - 9999:9999
+      - 8080:8080
     # env_file:
     #   - .env.production
     depends_on:
