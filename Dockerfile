@@ -22,7 +22,7 @@ RUN npx prisma generate
 RUN npm run build
 
 # Expõe a porta usada pela aplicação
-EXPOSE 7070
+EXPOSE 8080
 
 # Comando para rodar a aplicação
-CMD ["npm", "run", "start:dev"]
+CMD ["npm", "run", "start"]
