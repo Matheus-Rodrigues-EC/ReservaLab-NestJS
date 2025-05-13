@@ -14,6 +14,7 @@ RUN npm install --progress=false --prefer-offline
 
 # Copia o restante do projeto
 COPY . .
+COPY .env.production .env
 
 # Gera o Prisma Client
 RUN npx prisma generate
