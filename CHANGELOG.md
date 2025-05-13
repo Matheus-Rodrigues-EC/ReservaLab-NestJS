@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.2.1...v0.2.2) (2025-05-13)
+
+
+### Bug Fixes
+
+* Fixed bug on deploy production with docker ([3bfe0b6](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/3bfe0b672bce2a47abb6751bcce91712fd31fbea))
+
 ### [0.2.1](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.2.0...v0.2.1) (2025-05-12)
 
 
