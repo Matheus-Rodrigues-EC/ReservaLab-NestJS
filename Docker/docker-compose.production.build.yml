@@ -5,6 +5,13 @@ services:
 ## backend ##
 #############
 
+  reservalab-backend-postgres:
+    build:
+      context: ./Database
+      dockerfile: Dockerfile.production
+    image: mattrodriguesec/reservalab-postgres:stage
+    pull_policy: build
+
   reservalab-backend:
     build:
       context: ../
@@ -12,9 +19,3 @@ services:
     image: mattrodriguesec/reservalab-backend:stage
     pull_policy: build
     
-  reservalab-backend-postgres:
-    build:
-      context: ./Database
-      dockerfile: Dockerfile.production
-    image: postgres:17.3
-    pull_policy: build

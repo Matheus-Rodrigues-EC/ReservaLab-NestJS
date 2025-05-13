@@ -4,16 +4,16 @@ FROM postgres:17.3-alpine
 COPY postgresql.conf /
 
 # Copy personalized file to path of postgres
-COPY postgresql.conf /docker-entrypoint-initdb.d/postgresql.conf
+COPY postgresql.conf /etc/postgresql/postgresql.conf
 
 # Set the default user and password
-ENV POSTGRES_USER postgres
-ENV POSTGRES_PASSWORD postgres_reservalab_production_98
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=postgres_reservalab_production_98
 
 # Create a new Database
-ENV POSTGRES_DB reservalab-production
+ENV POSTGRES_DB=reservalab-stage
 
 # Expose the PostgresSQL port
 EXPOSE 5432
 
-CMD ["postgres", "-c", "config_file=/postgresql.conf"]
+CMD ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]

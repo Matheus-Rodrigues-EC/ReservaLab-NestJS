@@ -2,7 +2,7 @@
 services:
   reservalab-backend-postgres:
     image: postgres:17.3
-    container_name: reservalab-backend-postgres
+    container_name: reservalab-postgres-dev
     hostname: postgres
     restart: unless-stopped
     volumes:
@@ -31,7 +31,7 @@ services:
     hostname: backend
     restart: unless-stopped
     ports:
-      - '7070:7070'
+      - '8080:8080'
     volumes:
       - ./src:/src
       - ./prisma:/src/prisma
