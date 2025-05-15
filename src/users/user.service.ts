@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateUserDTO } from './DTOs/create.user.dto';
 import { LoginUserDTO } from './DTOs/login.user.dto';
@@ -11,6 +13,14 @@ import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 // import { AuthenticatedUser } from '../auth/authenticated';
 import { removerAcentos } from '../common/global.functions';
+
+const validateHeadMaster = (data: UpdateUserDTO, usersList: Array<any>) => {
+  return usersList.filter((user) => user.rulets === data.rulets)
+}
+
+const validateCordinator = (data: UpdateUserDTO, usersList: Array<any>) => {
+  return usersList.filter((user) => user.rulets === data.rulets)
+}
 
 @Injectable()
 export class UserService {
@@ -94,6 +104,21 @@ export class UserService {
     const userExists = await this.userRepository.getUserByID(id);
     if (!userExists)
       throw new HttpException('Usuário não encontrado!', HttpStatus.NOT_FOUND);
+
+    const usersExistsRulets = await this.userRepository.getUsers();
+    const existsHeadMaster = validateHeadMaster(data, usersExistsRulets);
+    console.log('exists: ', existsHeadMaster);
+    console.log('data: ', data);
+    if(data?.rulets === "Diretor(a)"){
+      if (existsHeadMaster.length >= 1)
+        throw new HttpException('Já existe um diretor cadastrado.', HttpStatus.FORBIDDEN)
+    }
+
+    if(data?.rulets === "Coordenador(a)"){
+      const existsCoordinators = validateCordinator(data, usersExistsRulets);
+      if (existsCoordinators.length >= 2)
+        throw new HttpException('Máximo de 2 coordenadores, já cadastrados.', HttpStatus.FORBIDDEN)
+    }
 
     return await this.userRepository.updateUserByID(id, data);
   }

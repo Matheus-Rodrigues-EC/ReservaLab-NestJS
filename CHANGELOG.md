@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.2.3...v0.3.0) (2025-05-15)
+
+
+### Features
+
+* configures seed to database and adjusts constraits tables on database. ([93404af](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/93404af332d0e2a0ae672885c65b74ca395dca8f))
+
+### [0.2.3](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.1.10...v0.2.3) (2025-05-15)
+
+
+### Features
+
+* Completed docker configuration ([8572e89](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/8572e89970271958391fdbf652a8c96c7ff632f1))
+* Configured rules to max 1 Headmaster and 2 Coordinators ([6aedf8c](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/6aedf8c923b4e67931e9556c5eda0131a33dfd58))
+
+
+### Bug Fixes
+
+* adjusting docker config on production ([3f666f1](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/3f666f1e9632414467e7ca8caa148061cd3a8309))
+* alter port ([e1dd4d4](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/e1dd4d4698d9c5e33b187da728f58d59b2812eb3))
+* Changed Dockerfile.production ([f06ffd9](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/f06ffd9967820fe9935be9edd430cf4f25422bab))
+* Fixed bug on deploy production with docker ([3bfe0b6](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/3bfe0b672bce2a47abb6751bcce91712fd31fbea))
+* fixed errors on docker files ([01ef823](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/01ef8239de11b838eaf31dcb94a86a5aeeb9cafd))
+* fixing bug on deploy production ([df7f997](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/df7f9973223fd61933932f0e1763d552828c34c3))
+
 ### [0.2.2](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.2.1...v0.2.2) (2025-05-13)
 
 
