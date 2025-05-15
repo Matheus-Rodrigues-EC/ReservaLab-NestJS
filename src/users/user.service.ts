@@ -106,10 +106,8 @@ export class UserService {
       throw new HttpException('Usuário não encontrado!', HttpStatus.NOT_FOUND);
 
     const usersExistsRulets = await this.userRepository.getUsers();
-    const existsHeadMaster = validateHeadMaster(data, usersExistsRulets);
-    console.log('exists: ', existsHeadMaster);
-    console.log('data: ', data);
     if(data?.rulets === "Diretor(a)"){
+      const existsHeadMaster = validateHeadMaster(data, usersExistsRulets);
       if (existsHeadMaster.length >= 1)
         throw new HttpException('Já existe um diretor cadastrado.', HttpStatus.FORBIDDEN)
     }
