@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.2.3...v0.3.0) (2025-05-15)
+
+
+### Features
+
+* configures seed to database and adjusts constraits tables on database. ([93404af](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/93404af332d0e2a0ae672885c65b74ca395dca8f))
+
 ### [0.2.3](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.1.10...v0.2.3) (2025-05-15)
 
 

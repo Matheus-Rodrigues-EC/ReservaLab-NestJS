@@ -1,6 +1,6 @@
 {
   "name": "reservalab-nestjs",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "",
   "author": "",
   "private": true,
@@ -24,7 +24,11 @@
     "release": "standard-version",
     "release:manual": "node scripts/release.mjs"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "dependencies": {
+    "@faker-js/faker": "^9.8.0",
     "@nestjs/common": "^11.0.12",
     "@nestjs/core": "^11.0.12",
     "@nestjs/jwt": "^11.0.0",
