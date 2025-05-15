@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.1](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.3.0...v0.3.1) (2025-05-15)
+
+
+### Features
+
+* configured system to forbiden register More than 1 Heademaster and 2 Coordinators ([92035cb](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/92035cb4ff0bfd4c08d00d9fae8af889080ac3ce))
+
+
+### Bug Fixes
+
+* adjusts setting system to forbiden register More than 1 Heademaster and 2 Coordinators ([cf9f991](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/commit/cf9f991927aa1ffefec55c4b1ff95434ee6ad727))
+
 ## [0.3.0](https://github.com/Matheus-Rodrigues-EC/ReservaLab-NestJS/compare/v0.2.3...v0.3.0) (2025-05-15)
 
 
