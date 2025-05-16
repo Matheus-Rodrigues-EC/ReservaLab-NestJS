@@ -15,11 +15,11 @@ import { JwtService } from '@nestjs/jwt';
 import { removerAcentos } from '../common/global.functions';
 
 const validateHeadMaster = (data: UpdateUserDTO, usersList: Array<any>) => {
-  return usersList.filter((user) => user.rulets === data.rulets)
+  return usersList.filter((user) => user.rulets === data.rulets && user.name !== data?.name)
 }
 
 const validateCordinator = (data: UpdateUserDTO, usersList: Array<any>) => {
-  return usersList.filter((user) => user.rulets === data.rulets)
+  return usersList.filter((user) => user.rulets === data.rulets && user.name !== data?.name)
 }
 
 @Injectable()
