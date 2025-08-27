@@ -1,51 +1,101 @@
+version: '3.8'
 
 services:
-  reservalab-backend-postgres:
-    image: postgres:17.3
-    container_name: reservalab-postgres-dev
-    hostname: postgres
+  # Banco de dados PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: reservalab-postgres
     restart: unless-stopped
-    volumes:
-      - reservalab-database:/var/lib/postgresql/data
-    ports:
-      - '127.0.0.1:5440:5432'
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres_reservalab
-      POSTGRES_DB: reservalab-development
+      POSTGRES_DB: reservalab
+      POSTGRES_USER: reservalab
+      POSTGRES_PASSWORD: reservalab123
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
     networks:
       - reservalab-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}", "-d", "reservalab-development"]
-      interval: 5s
-      timeout: 120s
-      retries: 30
-      start_period: 10s
-    
-  reservalab-backend:
+      test: ["CMD-SHELL", "pg_isready -U reservalab -d reservalab"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Aplicação NestJS (Desenvolvimento)
+  app-dev:
     build:
-      context: ./
+      context: .
       dockerfile: Dockerfile
-    image: reservalab-backend:dev
-    container_name: reservalab-backend-dev
-    hostname: backend
+      target: development
+    container_name: reservalab-app-dev
     restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 4000
+      DATABASE_URL: postgresql://reservalab:reservalab123@postgres:5432/reservalab?schema=public
     ports:
-      - '8080:8080'
+      - "4000:4000"
     volumes:
-      - ./src:/src
-      - ./prisma:/src/prisma
-      - ./package.json:/src/package.json
+      - .:/app
+      - /app/node_modules
     depends_on:
-      reservalab-backend-postgres:
+      postgres:
         condition: service_healthy
     networks:
       - reservalab-network
+    command: sh -c "npx prisma migrate deploy && npm run start:dev"
+
+  # Aplicação NestJS (Produção)
+  app-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: reservalab-app-prod
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: postgresql://reservalab:reservalab123@postgres:5432/reservalab?schema=public
+    ports:
+      - "4001:4000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - reservalab-network
+    command: sh -c "npx prisma migrate deploy && node dist/main"
+    profiles:
+      - production
+
+  # PgAdmin (Opcional - para gerenciar o banco)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: reservalab-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@reservalab.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - reservalab-network
+    profiles:
+      - tools
 
 volumes:
-  reservalab-database:
+  postgres_data:
+    driver: local
+  pgadmin_data:
+    driver: local
 
 networks:
   reservalab-network:
-    name: reservalab-network
     driver: bridge

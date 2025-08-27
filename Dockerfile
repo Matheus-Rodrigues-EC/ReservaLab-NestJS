@@ -1,28 +1,78 @@
-FROM node:20.19.0-alpine AS builder
+# Dockerfile para desenvolvimento e produção
+FROM node:18-alpine AS base
+
+# Instalar dependências necessárias
+RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
-ENV NODE_ENV=development
 
-# Instala dependências do SO
-RUN apk update && apk add --no-cache postgresql-client
-
-# Copia arquivos de dependência
+# Copiar arquivos de configuração do package manager
 COPY package*.json ./
+COPY prisma ./prisma/
 
-# Instala dependências de desenvolvimento
-RUN npm install --only=dev --no-audit --progress=false --prefer-offline
+# Instalar dependências
+RUN npm ci --only=production && npm cache clean --force
 
-# Copia o restante do projeto
+# Estágio de desenvolvimento
+FROM base AS development
+
+# Instalar todas as dependências (incluindo devDependencies)
+RUN npm ci
+
+# Copiar código fonte
 COPY . .
 
-# Gera o Prisma Client
+# Gerar cliente Prisma
 RUN npx prisma generate
 
-# Compila a aplicação (caso use TypeScript)
+# Expor porta
+EXPOSE 4000
+
+# Comando para desenvolvimento
+CMD ["npm", "run", "start:dev"]
+
+# Estágio de build para produção
+FROM base AS build
+
+# Instalar todas as dependências para build
+RUN npm ci
+
+# Copiar código fonte
+COPY . .
+
+# Gerar cliente Prisma
+RUN npx prisma generate
+
+# Build da aplicação
 RUN npm run build
 
-# Expõe a porta usada pela aplicação
-EXPOSE 8080
+# Estágio de produção
+FROM node:18-alpine AS production
 
-# Comando para rodar a aplicação
-CMD ["npm", "run", "start"]
+WORKDIR /app
+
+# Copiar arquivos necessários
+COPY package*.json ./
+COPY prisma ./prisma/
+
+# Instalar apenas dependências de produção
+RUN npm ci --only=production && npm cache clean --force
+
+# Gerar cliente Prisma
+RUN npx prisma generate
+
+# Copiar aplicação buildada
+COPY --from=build /app/dist ./dist
+
+# Criar usuário não-root
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nestjs -u 1001
+
+# Mudar ownership dos arquivos
+USER nestjs
+
+# Expor porta
+EXPOSE 4000
+
+# Comando para produção
+CMD ["node", "dist/main"]
