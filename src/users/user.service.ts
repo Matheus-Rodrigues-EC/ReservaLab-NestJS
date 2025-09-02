@@ -11,6 +11,7 @@ import { UserRepository } from './user.repository';
 import * as bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
+import { MailerService } from '@nestjs-modules/mailer';
 // import { AuthenticatedUser } from '../auth/authenticated';
 import { removerAcentos } from '../common/global.functions';
 
@@ -22,12 +23,42 @@ const validateCordinator = (data: UpdateUserDTO, usersList: Array<any>) => {
   return usersList.filter((user) => user.rulets === data.rulets && user.name !== data?.name)
 }
 
+const generateStrongPassword = (length: number = 12): string => {
+  if (length < 8 || length > 25) {
+    throw new Error('O tamanho da senha deve ser entre 8 e 25 caracteres.');
+  }
+
+  const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const lower = 'abcdefghijklmnopqrstuvwxyz';
+  const numbers = '0123456789';
+  const specials = '!@#$%^&*()-_=+[]{};:,.<>?';
+
+  // Garante pelo menos um de cada tipo
+  const password = [
+    upper[Math.floor(Math.random() * upper.length)],
+    lower[Math.floor(Math.random() * lower.length)],
+    numbers[Math.floor(Math.random() * numbers.length)],
+    specials[Math.floor(Math.random() * specials.length)],
+  ];
+
+  const all = upper + lower + numbers + specials;
+  for (let i = password.length; i < length; i++) {
+    password.push(all[Math.floor(Math.random() * all.length)]);
+  }
+
+  // Embaralha a senha para garantir aleatoriedade
+  return password
+    .sort(() => Math.random() - 0.5)
+    .join('');
+}
+
 @Injectable()
 export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly jwtService: JwtService,
-  ) {}
+    private readonly mailerService: MailerService
+  ) { }
 
   getHealthUser(): string {
     return 'User is Okay!';
@@ -56,17 +87,45 @@ export class UserService {
         HttpStatus.UNAUTHORIZED,
       );
 
-      const user = {
-        id: userExists.id,
-        email: userExists.email,
-        name: userExists.name,
-        surname: userExists.surname,
-        rulets: userExists.rulets,
-        subject: userExists.subject,
-      }
-      const token = this.generateToken(userExists);
+    const user = {
+      id: userExists.id,
+      email: userExists.email,
+      name: userExists.name,
+      surname: userExists.surname,
+      rulets: userExists.rulets,
+      subject: userExists.subject,
+    }
+    const token = this.generateToken(userExists);
 
-    return {user, token};
+    return { user, token };
+  }
+
+  async googleloginUser(data: LoginUserDTO) {
+    const userExists = await this.userRepository.getUserByEmail(data.email);
+    if (!userExists)
+      throw new HttpException(
+        'Email não cadastrado',
+        HttpStatus.NOT_FOUND,
+      );
+
+    const validatePassword = bcrypt.compareSync(data.password, userExists.password);
+    if (!validatePassword)
+      throw new HttpException(
+        'Email e/ou senha estão incorretos',
+        HttpStatus.UNAUTHORIZED,
+      );
+
+    const user = {
+      id: userExists.id,
+      email: userExists.email,
+      name: userExists.name,
+      surname: userExists.surname,
+      rulets: userExists.rulets,
+      subject: userExists.subject,
+    }
+    const token = this.generateToken(userExists);
+
+    return { user, token };
   }
 
   async getUsers() {
@@ -106,13 +165,13 @@ export class UserService {
       throw new HttpException('Usuário não encontrado!', HttpStatus.NOT_FOUND);
 
     const usersExistsRulets = await this.userRepository.getUsers();
-    if(data?.rulets === "Diretor(a)"){
+    if (data?.rulets === "Diretor(a)") {
       const existsHeadMaster = validateHeadMaster(data, usersExistsRulets);
       if (existsHeadMaster.length >= 1)
         throw new HttpException('Já existe um diretor cadastrado.', HttpStatus.FORBIDDEN)
     }
 
-    if(data?.rulets === "Coordenador(a)"){
+    if (data?.rulets === "Coordenador(a)") {
       const existsCoordinators = validateCordinator(data, usersExistsRulets);
       if (existsCoordinators.length >= 2)
         throw new HttpException('Máximo de 2 coordenadores, já cadastrados.', HttpStatus.FORBIDDEN)
@@ -128,7 +187,7 @@ export class UserService {
     console.log('Data: ', data);
     if (!userExists)
       throw new HttpException('Usuário não encontrado!', HttpStatus.NOT_FOUND);
-    
+
     const validatePassword = bcrypt.compareSync(data.CurrentPassword, userExists.password);
     if (!validatePassword)
       throw new HttpException(
@@ -137,6 +196,39 @@ export class UserService {
       );
 
     return await this.userRepository.updatePasswordById(id, data);
+  }
+
+  async RecoverPassword(email: string) {
+
+    const userExists = await this.userRepository.getUserByEmail(email);
+    if (!userExists)
+      throw new HttpException('Email não cadastrado no sistema!', HttpStatus.NOT_FOUND);
+
+    const password = generateStrongPassword();
+
+    const recoverPassword = await this.userRepository.recoverPasswordByEmail(email, password);
+    if (!recoverPassword)
+      throw new HttpException('Erro ao recuperar a senha!', HttpStatus.INTERNAL_SERVER_ERROR);
+
+    await this.mailerService.sendMail({
+      to: email,
+      subject: "Recuperação de Senha",
+      text: `
+Olá ${userExists.name},
+
+Você solicitou a recuperação de senha para sua conta no ReservaLab.
+
+Sua nova senha temporária é: ${password}
+
+Por segurança, recomendamos que você acesse o sistema e altere sua senha assim que possível.
+
+Se você não solicitou essa alteração, entre em contato com o suporte imediatamente.
+
+Atenciosamente,
+Equipe ReservaLab
+`
+    });
+    return 'Email de recuperação enviado';
   }
 
   async deleteUser(userID: number) {
@@ -166,7 +258,7 @@ export class UserService {
   verifyToken(token: string) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const tokenData = this.jwtService.verify(token);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return { ...tokenData, sub: parseInt(tokenData.sub) } as {
       email: string;
       name: string;

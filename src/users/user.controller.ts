@@ -16,6 +16,8 @@ import { CreateUserDTO } from './DTOs/create.user.dto';
 import { LoginUserDTO } from './DTOs/login.user.dto';
 import { UpdateUserDTO } from './DTOs/update.user.dto';
 import { UpdatePasswordUserDTO } from './DTOs/update.password.user.dto';
+import { RecoverPasswordUserDTO } from './DTOs/recover.password.user.dto';
+// import { MailerService } from '@nestjs-modules/mailer';
 // import { DeleteUserDTO } from './DTOs/delete.user.dto';
 // import { AuthenticatedUser } from '../auth/authenticated';
 // import { UserDecorator } from '../auth/decorator/user.decorator';
@@ -23,7 +25,10 @@ import { Guard } from '../auth/guard';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    // private readonly mailerService: MailerService
+  ) { }
 
   @Get('/')
   @HttpCode(200)
@@ -43,6 +48,12 @@ export class UserController {
     return this.userService.loginUser(body);
   }
 
+  @Post('google/login')
+  @HttpCode(200)
+  signInWithGoogle(@Body() body: LoginUserDTO) {
+    return this.userService.googleloginUser(body);
+  }
+
   @UseGuards(Guard)
   @Get('list')
   @HttpCode(200)
@@ -60,7 +71,7 @@ export class UserController {
     return this.userService.getUserByID(id);
   }
 
-  @UseGuards(Guard)
+  // @UseGuards(Guard)
   @Get('list/email/:email')
   @HttpCode(200)
   getUserByEmail(
@@ -89,6 +100,11 @@ export class UserController {
     // @UserDecorator() user: AuthenticatedUser,
   ) {
     return this.userService.updateUser(id, body);
+  }
+
+  @Patch('/recover-password')
+  async recoverPassword(@Body() body: RecoverPasswordUserDTO): Promise<string> {
+    return this.userService.RecoverPassword(body.email);
   }
 
   @UseGuards(Guard)

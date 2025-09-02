@@ -102,6 +102,25 @@ export class UserRepository {
     });
   }
 
+  async recoverPasswordByEmail(email: string, password: string) {
+    return await this.prisma.user.update({
+      data: {
+        password: bcrypt.hashSync(password, 10),
+      },
+      select: {
+        id: true,
+        name: true,
+        surname: true,
+        subject: true,
+        rulets: true,
+        updatedAt: true,
+      },
+      where: {
+        email: email,
+      },
+    })
+  }
+
   async deleteUserByID(id: number) {
     return await this.prisma.$transaction([
       this.prisma.reservation.deleteMany({ where: { userId: id } }),
