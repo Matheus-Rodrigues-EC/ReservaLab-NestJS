@@ -17,7 +17,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
       // transport: "smtp://reservalab.25@gmail.com:password@smtp.domain.com",
       defaults: {
         secure: false, //para usar 587 ou true para 465
-        from: '"ReservaLab Suporte" <reservalab.25@gmail.com>'
+        from: `"ReservaLab Suporte" <${process.env.GOOGLE_USER}>`
       }
     })
   ],
