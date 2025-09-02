@@ -24,6 +24,7 @@ model User {
   shift           String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+  deletedAt       DateTime?
   Reservation     Reservation[]
   EquipmentsReservation       EquipmentsReservation[]
 
@@ -37,6 +38,7 @@ model Classroom {
   description     String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+  deletedAt       DateTime?
   Reservation     Reservation[]
 
   @@map("classrooms")
@@ -50,6 +52,7 @@ model Class {
   description     String?  
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+  deletedAt       DateTime?
   Reservation     Reservation[]
 
   @@unique([grade, className, shift])
@@ -64,6 +67,7 @@ model Equipment {
   description     String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+  deletedAt       DateTime?
   EquipmentsReservation       EquipmentsReservation[]
 
   @@unique([name, type])
@@ -84,6 +88,7 @@ model Reservation {
   description     String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+  deletedAt       DateTime?
 
   @@unique([date, time, classroomId])
   @@unique([date, time, classId])
@@ -102,6 +107,7 @@ model EquipmentsReservation {
   description     String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+  deletedAt       DateTime?
 
   @@unique([date, time, equipmentId])
   @@map("equipmentsreservations")

@@ -19,10 +19,11 @@ import { EquipmentsController } from './equipments/equipments.controller';
 import { EquipmentsModule } from './equipments/equipments.module';
 import { EquipmentsReservationsController } from './equipments-reservations/equipments-reservations.controller';
 import { EquipmentsReservationsModule } from './equipments-reservations/equipments-reservations.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
-  imports: [UserModule, ClassesModule, ClassroomModule, ReservationsModule, EquipmentsModule, EquipmentsReservationsModule],
+  imports: [ UserModule, ClassesModule, ClassroomModule, ReservationsModule, EquipmentsModule, EquipmentsReservationsModule, PrismaModule ],
   controllers: [AppController, ClassesController, ClassroomController, ReservationsController, AuthController, EquipmentsController, EquipmentsReservationsController],
   providers: [AppService, ClassesService, ClassroomService, ReservationsService, EquipmentsService, EquipmentsReservationsService],
 })
-export class AppModule {}
+export class AppModule { }

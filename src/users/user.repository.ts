@@ -9,7 +9,7 @@ import { UpdatePasswordUserDTO } from './DTOs/update.password.user.dto';
 
 @Injectable()
 export class UserRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async createUser(data: CreateUserDTO) {
     return await this.prisma.user.create({
@@ -32,7 +32,7 @@ export class UserRepository {
         id: true,
         email: true,
         name: true,
-        surname: true, 
+        surname: true,
         rulets: true,
         shift: true,
         subject: true,
@@ -41,17 +41,8 @@ export class UserRepository {
   }
 
   async getUserByID(id: number) {
-    return await this.prisma.user.findUnique({ 
+    return await this.prisma.user.findUnique({
       where: { id: id },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        surname: true, 
-        rulets: true,
-        shift: true,
-        subject: true,
-      }
     });
   }
 
@@ -109,6 +100,25 @@ export class UserRepository {
         id: id,
       },
     });
+  }
+
+  async recoverPasswordByEmail(email: string, password: string) {
+    return await this.prisma.user.update({
+      data: {
+        password: bcrypt.hashSync(password, 10),
+      },
+      select: {
+        id: true,
+        name: true,
+        surname: true,
+        subject: true,
+        rulets: true,
+        updatedAt: true,
+      },
+      where: {
+        email: email,
+      },
+    })
   }
 
   async deleteUserByID(id: number) {
