@@ -108,12 +108,19 @@ export class UserService {
         HttpStatus.NOT_FOUND,
       );
 
-    const validatePassword = bcrypt.compareSync(data.password, userExists.password);
-    if (!validatePassword)
+    if (data?.google_client_id !== userExists?.google_client_id)
       throw new HttpException(
-        'Email e/ou senha estão incorretos',
+        'Erro ao identificar conta Google',
         HttpStatus.UNAUTHORIZED,
       );
+    // else {
+    //   const validatePassword = bcrypt.compareSync(data.password, userExists.password);
+    //   if (!validatePassword)
+    //     throw new HttpException(
+    //       'Email e/ou senha estão incorretos',
+    //       HttpStatus.UNAUTHORIZED,
+    //     );
+    // }
 
     const user = {
       id: userExists.id,

@@ -14,18 +14,19 @@ datasource db {
 }
 
 model User {
-  id              Int         @id @default(autoincrement())
-  name            String
-  surname         String?
-  email           String      @unique
-  password        String
-  subject         String?
-  rulets          String?
-  shift           String?
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  deletedAt       DateTime?
-  Reservation     Reservation[]
+  id                Int         @id @default(autoincrement())
+  name              String
+  surname           String?
+  email             String      @unique
+  password          String
+  google_client_id  String?     @unique
+  subject           String?
+  rulets            String?
+  shift             String?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  deletedAt         DateTime?
+  Reservation       Reservation[]
   EquipmentsReservation       EquipmentsReservation[]
 
   @@map("users")

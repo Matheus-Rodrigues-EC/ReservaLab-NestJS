@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { IsNotEmpty, IsEmail, IsString } from 'class-validator';
+import { IsNotEmpty, IsEmail, IsString, IsOptional } from 'class-validator';
 
 export class CreateUserDTO {
   @IsNotEmpty()
@@ -14,4 +14,16 @@ export class CreateUserDTO {
   @IsNotEmpty()
   @IsString()
   password: string;
+
+  @IsNotEmpty()
+  @IsString()
+  subject: string;
+
+  @IsNotEmpty()
+  @IsString()
+  rulets: string;
+
+  @IsOptional()
+  @IsString()
+  google_client_id?: string;
 }
