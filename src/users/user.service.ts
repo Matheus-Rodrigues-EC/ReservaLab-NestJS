@@ -113,14 +113,6 @@ export class UserService {
         'Erro ao identificar conta Google',
         HttpStatus.UNAUTHORIZED,
       );
-    // else {
-    //   const validatePassword = bcrypt.compareSync(data.password, userExists.password);
-    //   if (!validatePassword)
-    //     throw new HttpException(
-    //       'Email e/ou senha estão incorretos',
-    //       HttpStatus.UNAUTHORIZED,
-    //     );
-    // }
 
     const user = {
       id: userExists.id,
@@ -189,9 +181,9 @@ export class UserService {
 
   async updateUserPassword(id: number, data: UpdatePasswordUserDTO) {
     const userExists = await this.userRepository.getUserByIDToUpdate(id);
-    console.log('user: ', userExists);
-    console.log('id: ', id);
-    console.log('Data: ', data);
+    // console.log('user: ', userExists);
+    // console.log('id: ', id);
+    // console.log('Data: ', data);
     if (!userExists)
       throw new HttpException('Usuário não encontrado!', HttpStatus.NOT_FOUND);
 

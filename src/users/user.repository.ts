@@ -71,6 +71,7 @@ export class UserRepository {
       select: {
         id: true,
         name: true,
+        email: true,
         surname: true,
         subject: true,
         rulets: true,
@@ -91,6 +92,7 @@ export class UserRepository {
       select: {
         id: true,
         name: true,
+        email: true,
         surname: true,
         subject: true,
         rulets: true,
@@ -110,6 +112,7 @@ export class UserRepository {
       select: {
         id: true,
         name: true,
+        email: true,
         surname: true,
         subject: true,
         rulets: true,
