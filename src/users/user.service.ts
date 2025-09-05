@@ -69,6 +69,29 @@ export class UserService {
     if (userExists)
       throw new HttpException('Email já cadastrado', HttpStatus.CONFLICT);
 
+    await this.mailerService.sendMail({
+      to: data?.email,
+      subject: "Criação de Cadastro",
+      text: `
+Olá ${data?.name},
+
+Parabens! Sua conta no ReservaLab foi criada com sucesso.
+
+Seja bem-vindo(a) ao ReservaLab! Estamos felizes em tê-lo(a) conosco.
+
+Sua conta foi criada com os seguintes detalhes:
+Nome: ${data?.name}
+Email: ${data?.email}
+Senha: ${data?.password}
+Por segurança, recomendamos que você acesse o sistema e altere sua senha assim que possível.
+
+Se você não solicitou seu cadastro, entre em contato com o suporte imediatamente.
+
+Atenciosamente,
+Equipe ReservaLab
+`
+    });
+
     return await this.userRepository.createUser(data);
   }
 
