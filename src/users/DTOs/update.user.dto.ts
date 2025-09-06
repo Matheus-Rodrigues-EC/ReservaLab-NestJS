@@ -1,10 +1,14 @@
 /* eslint-disable prettier/prettier */
-import { IsNotEmpty, IsDate, IsArray, IsString } from 'class-validator';
+import { IsNotEmpty, IsDate, IsArray, IsString, IsOptional } from 'class-validator';
 
 export class UpdateUserDTO {
   @IsNotEmpty()
   @IsString()
   name: string;
+
+  @IsOptional()
+  @IsString()
+  google_client_id: string;
 
   @IsNotEmpty()
   @IsString()

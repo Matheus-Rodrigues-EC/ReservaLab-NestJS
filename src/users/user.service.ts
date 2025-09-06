@@ -72,23 +72,25 @@ export class UserService {
     await this.mailerService.sendMail({
       to: data?.email,
       subject: "Criação de Cadastro",
-      text: `
-Olá ${data?.name},
+      html: `
+<p>👋 Olá <b>${data?.name}</b>,</p>
 
-Parabens! Sua conta no ReservaLab foi criada com sucesso.
+<p>Parabéns! Sua conta no ReservaLab foi criada com sucesso. 😁</p>
 
-Seja bem-vindo(a) ao ReservaLab! Estamos felizes em tê-lo(a) conosco.
+<p>Seja bem-vindo(a) ao ReservaLab! Estamos felizes em tê-lo(a) conosco. 🤝</p>
 
-Sua conta foi criada com os seguintes detalhes:
-Nome: ${data?.name}
-Email: ${data?.email}
-Senha: ${data?.password}
-Por segurança, recomendamos que você acesse o sistema e altere sua senha assim que possível.
+<p>Sua conta foi criada com os seguintes detalhes:</p>
+<ul>
+  <li><b>👤 Nome:</b> ${data?.name}</li>
+  <li><b>📧 Email:</b> ${data?.email}</li>
+  <li><b>🔒 Senha:</b> ${data?.password}</li>
+</ul>
+<p>Por segurança, recomendamos que você acesse o sistema e altere sua senha assim que possível. 🧑‍💻</p>
 
-Se você não solicitou seu cadastro, entre em contato com o suporte imediatamente.
+<p>Se você não solicitou seu cadastro, entre em contato com o suporte imediatamente. 🕵️</p>
 
-Atenciosamente,
-Equipe ReservaLab
+<p>Atenciosamente,</p>
+<p>Equipe ReservaLab</p>
 `
     });
 
@@ -131,7 +133,29 @@ Equipe ReservaLab
         HttpStatus.NOT_FOUND,
       );
 
-    if (data?.google_client_id !== userExists?.google_client_id)
+    if (data?.email === userExists?.email) {
+      if (userExists?.google_client_id === null || userExists?.google_client_id === undefined) {
+        await this.mailerService.sendMail({
+          to: userExists?.email,
+          subject: "Atualização de Cadastro",
+          html: `
+<p>👋 Olá <b>${userExists?.name}</b>,</p>
+
+<p>Uma atualização de cadastro foi feita para a sua conta no ReservaLab.</p>
+
+<p>Seu email Google foi associado à conta, e você poderá fazer login diretamente pelo Google. 😁</p>
+
+<p>Se você não solicitou essa alteração, entre em contato com o suporte imediatamente. 🕵️</p>
+
+<p>Atenciosamente,</p>
+<p>Equipe ReservaLab</p>
+`
+        });
+
+        await this.updateUser(userExists.id, { google_client_id: data?.google_client_id } as UpdateUserDTO);
+      }
+    }
+    else if (data?.google_client_id !== userExists?.google_client_id)
       throw new HttpException(
         'Erro ao identificar conta Google',
         HttpStatus.UNAUTHORIZED,
@@ -235,19 +259,19 @@ Equipe ReservaLab
     await this.mailerService.sendMail({
       to: email,
       subject: "Recuperação de Senha",
-      text: `
-Olá ${userExists.name},
+      html: `
+<p>👋 Olá <b>${userExists.name}</b>,</p>
 
-Você solicitou a recuperação de senha para sua conta no ReservaLab.
+<p>Você solicitou a recuperação de senha para sua conta no ReservaLab. ♻️</p>
 
-Sua nova senha temporária é: ${password}
+<p>Sua nova senha temporária é:🔒 <b>${password}</b></p>
 
-Por segurança, recomendamos que você acesse o sistema e altere sua senha assim que possível.
+<p>Por segurança, recomendamos que você acesse o sistema e altere sua senha assim que possível. 🧑‍💻</p>
 
-Se você não solicitou essa alteração, entre em contato com o suporte imediatamente.
+<p>Se você não solicitou essa alteração, entre em contato com o suporte imediatamente. 🕵️</p>
 
-Atenciosamente,
-Equipe ReservaLab
+<p>Atenciosamente,</p>
+<p>Equipe ReservaLab</p>
 `
     });
     return 'Email de recuperação enviado';

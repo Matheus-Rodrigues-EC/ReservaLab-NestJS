@@ -102,6 +102,16 @@ export class UserController {
     return this.userService.updateUser(id, body);
   }
 
+  @Patch(':id/update/google-id')
+  @HttpCode(200)
+  updateAddGoogleId(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdateUserDTO,
+    // @UserDecorator() user: AuthenticatedUser,
+  ) {
+    return this.userService.updateUser(id, body);
+  }
+
   @Patch('/recover-password')
   async recoverPassword(@Body() body: RecoverPasswordUserDTO): Promise<string> {
     return this.userService.RecoverPassword(body.email);
