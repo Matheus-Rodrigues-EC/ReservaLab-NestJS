@@ -117,6 +117,7 @@ export class UserService {
       email: userExists.email,
       name: userExists.name,
       surname: userExists.surname,
+      shift: userExists.shift,
       rulets: userExists.rulets,
       subject: userExists.subject,
     }
@@ -166,6 +167,7 @@ export class UserService {
       email: userExists.email,
       name: userExists.name,
       surname: userExists.surname,
+      shift: userExists.shift,
       rulets: userExists.rulets,
       subject: userExists.subject,
     }
