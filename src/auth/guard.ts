@@ -10,7 +10,7 @@ import { UserService } from '../users/user.service';
 
 @Injectable()
 export class Guard implements CanActivate {
-  constructor(private readonly usersService: UserService) {}
+  constructor(private readonly usersService: UserService) { }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
@@ -30,8 +30,10 @@ export class Guard implements CanActivate {
       const data = this.usersService.verifyToken(token);
       const user = await this.usersService.getUserByID(data.sub);
 
-      // 🔁 Aqui é a mudança importante
-      request.user = user;
+      // Garante que o campo deletedAt está presente (mesmo que null)
+      request.user = {
+        ...user,
+      };
 
       return true;
     } catch (error) {

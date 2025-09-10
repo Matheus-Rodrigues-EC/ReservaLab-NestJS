@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { AuthenticatedUser } from './authenticated'; // Ajuste o caminho conforme necessário
 import { Guard } from './guard';

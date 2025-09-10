@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsEmail, IsString } from 'class-validator';
+import { IsNotEmpty, IsEmail, IsString, IsOptional } from 'class-validator';
 
 export class LoginUserDTO {
   @IsNotEmpty()
@@ -9,4 +9,8 @@ export class LoginUserDTO {
   @IsNotEmpty()
   @IsString()
   password: string;
+
+  @IsOptional()
+  @IsString()
+  google_client_id?: string;
 }

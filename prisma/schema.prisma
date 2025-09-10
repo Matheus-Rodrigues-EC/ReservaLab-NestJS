@@ -14,17 +14,19 @@ datasource db {
 }
 
 model User {
-  id              Int         @id @default(autoincrement())
-  name            String
-  surname         String?
-  email           String      @unique
-  password        String
-  subject         String?
-  rulets          String?
-  shift           String?
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  Reservation     Reservation[]
+  id                Int         @id @default(autoincrement())
+  name              String
+  surname           String?
+  email             String      @unique
+  password          String
+  google_client_id  String?     @unique
+  subject           String?
+  rulets            String?
+  shift             String?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  deletedAt         DateTime?
+  Reservation       Reservation[]
   EquipmentsReservation       EquipmentsReservation[]
 
   @@map("users")
@@ -37,6 +39,7 @@ model Classroom {
   description     String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+  deletedAt       DateTime?
   Reservation     Reservation[]
 
   @@map("classrooms")
@@ -50,6 +53,7 @@ model Class {
   description     String?  
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+  deletedAt       DateTime?
   Reservation     Reservation[]
 
   @@unique([grade, className, shift])
@@ -64,6 +68,7 @@ model Equipment {
   description     String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+  deletedAt       DateTime?
   EquipmentsReservation       EquipmentsReservation[]
 
   @@unique([name, type])
@@ -84,6 +89,7 @@ model Reservation {
   description     String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+  deletedAt       DateTime?
 
   @@unique([date, time, classroomId])
   @@unique([date, time, classId])
@@ -102,6 +108,7 @@ model EquipmentsReservation {
   description     String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+  deletedAt       DateTime?
 
   @@unique([date, time, equipmentId])
   @@map("equipmentsreservations")
